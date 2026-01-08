@@ -1,0 +1,166 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block header_logo_class %}text-white{% endblock %}
+{% block header_nav_class %}text-white/80{% endblock %}
+
+{% block content %}
+<section class="min-h-screen bg-[#1a1a1a] text-white flex items-stretch overflow-hidden pt-20 lg:pt-0">
+    <!-- Left: Image Section -->
+    <div class="hidden lg:block w-5/12 relative">
+        <div class="absolute inset-0 bg-gray-800">
+            <!-- 
+                USER NOTE: Change the src below to your desired photo.
+                Currently using the same portrait as on the About page or a placeholder.
+            -->
+            <img src="https://images.unsplash.com/photo-1534528741775-53994a69daeb?ixlib=rb-4.0.3&auto=format&fit=crop&w=1064&q=80"
+                alt="Nataliya Kulchinskaya" class="w-full h-full object-cover opacity-80 mix-blend-overlay">
+            <!-- Quote Overlay -->
+            <div class="absolute top-1/4 left-1/2 -translate-x-1/2 w-3/4 text-center z-10">
+                <p class="serif text-2xl italic leading-relaxed text-white/90">
+                    "Дизайн — это не то, как вещь выглядит, а то, как она работает и какие чувства вызывает."
+                </p>
+            </div>
+        </div>
+    </div>
+
+    <!-- Right: Content Section -->
+    <div class="w-full lg:w-7/12 flex flex-col justify-center px-6 md:px-16 py-12 lg:py-20 relative">
+
+
+        <div class="flex flex-col lg:flex-row gap-12 lg:gap-20 max-w-5xl mx-auto w-full mt-12 lg:mt-0">
+            <!-- Content Column -->
+            <div class="lg:w-5/12">
+                <h1 class="serif text-4xl md:text-5xl lg:text-6xl mb-4 leading-tight">
+                    Давайте<br>встретимся
+                </h1>
+                <p class="text-[10px] uppercase tracking-[0.2em] text-gray-500 mb-12">
+                    Обсудить ваш проект
+                </p>
+
+                <div class="space-y-8">
+                    <div>
+                        <a href="tel:+70000000000"
+                            class="text-xl md:text-2xl hover:text-gray-300 transition-colors block mb-2 font-light">
+                            +7 000 000 000
+                        </a>
+                        <a href="mailto:info@nk-interiors.ru"
+                            class="text-sm text-gray-400 hover:text-white transition-colors">
+                            Эл. почта: info@nk-interiors.ru
+                        </a>
+                    </div>
+
+                    <!-- Socials -->
+                    <div class="pt-8">
+                        <p class="text-[9px] uppercase tracking-widest text-gray-500 mb-4">Социальные сети</p>
+                        <div class="flex gap-4">
+                            <!-- Instagram Icon -->
+                            <a href="#"
+                                class="w-10 h-10 border border-white/20 rounded-full flex items-center justify-center hover:bg-white hover:text-black transition-all group">
+                                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24"
+                                    fill="none" class="stroke-current" stroke-width="2" stroke-linecap="round"
+                                    stroke-linejoin="round">
+                                    <rect x="2" y="2" width="20" height="20" rx="5" ry="5"></rect>
+                                    <path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z"></path>
+                                    <line x1="17.5" y1="6.5" x2="17.51" y2="6.5"></line>
+                                </svg>
+                            </a>
+                            <!-- WhatsApp Icon -->
+                            <a href="#"
+                                class="w-10 h-10 border border-white/20 rounded-full flex items-center justify-center hover:bg-white hover:text-black transition-all group">
+                                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24"
+                                    fill="none" class="stroke-current" stroke-width="2" stroke-linecap="round"
+                                    stroke-linejoin="round">
+                                    <path
+                                        d="M21 11.5a8.38 8.38 0 0 1-.9 3.8 8.5 8.5 0 0 1-7.6 4.7 8.38 8.38 0 0 1-3.8-.9L3 21l1.9-5.7a8.38 8.38 0 0 1-.9-3.8 8.5 8.5 0 0 1 4.7-7.6 8.38 8.38 0 0 1 3.8-.9h.5a8.48 8.48 0 0 1 8 8v.5z">
+                                    </path>
+                                </svg>
+                            </a>
+                            <!-- Phone/Telegram Icon -->
+                            <a href="#"
+                                class="w-10 h-10 border border-white/20 rounded-full flex items-center justify-center hover:bg-white hover:text-black transition-all group">
+                                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24"
+                                    fill="none" class="stroke-current" stroke-width="2" stroke-linecap="round"
+                                    stroke-linejoin="round">
+                                    <path
+                                        d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z">
+                                    </path>
+                                </svg>
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Form Column -->
+            <div class="lg:w-7/12">
+                <div class="bg-[#222] p-8 md:p-12">
+                    <h3 class="serif text-2xl mb-2">Оставить заявку</h3>
+                    <p class="text-xs text-gray-500 mb-8">
+                        Заполните форму, и я обязательно свяжусь с вами, чтобы обсудить детали и стоимость проекта.
+                    </p>
+
+                    <div id="form-result">
+                        <form hx-post="{% url 'leads:submit' %}" hx-target="#form-result" hx-swap="innerHTML"
+                            enctype="multipart/form-data" class="space-y-8">
+                            {% csrf_token %}
+                            <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
+                                <div class="relative group">
+                                    <input type="text" name="name" id="name" required
+                                        class="block w-full bg-transparent border-b border-gray-700 py-2 text-white placeholder-transparent focus:outline-none focus:border-white transition-colors peer">
+                                    <label for="name"
+                                        class="absolute left-0 top-2 text-xs uppercase tracking-widest text-gray-500 transition-all peer-focus:-top-4 peer-focus:text-[9px] peer-valid:-top-4 peer-valid:text-[9px]">
+                                        Фамилия и Имя
+                                    </label>
+                                </div>
+                                <div class="relative group">
+                                    <input type="tel" name="phone" id="phone" required
+                                        class="block w-full bg-transparent border-b border-gray-700 py-2 text-white placeholder-transparent focus:outline-none focus:border-white transition-colors peer">
+                                    <label for="phone"
+                                        class="absolute left-0 top-2 text-xs uppercase tracking-widest text-gray-500 transition-all peer-focus:-top-4 peer-focus:text-[9px] peer-valid:-top-4 peer-valid:text-[9px]">
+                                        Номер телефона
+                                    </label>
+                                </div>
+                            </div>
+
+                            <div class="relative group">
+                                <textarea name="description" id="description" rows="1"
+                                    class="block w-full bg-transparent border-b border-gray-700 py-2 text-white placeholder-transparent focus:outline-none focus:border-white transition-colors peer resize-none"></textarea>
+                                <label for="description"
+                                    class="absolute left-0 top-2 text-xs uppercase tracking-widest text-gray-500 transition-all peer-focus:-top-4 peer-focus:text-[9px] peer-valid:-top-4 peer-valid:text-[9px]">
+                                    Расскажите о вашем проекте
+                                </label>
+                            </div>
+
+                            <!-- PDF File Input -->
+                            <div class="relative group">
+                                <label class="block text-[10px] uppercase tracking-widest text-gray-500 mb-2">
+                                    Прикрепить файл (PDF, до 5МБ)
+                                </label>
+                                <input type="file" name="file" accept=".pdf"
+                                    class="block w-full text-xs text-gray-400 file:mr-4 file:py-2 file:px-4 file:rounded-full file:border-0 file:text-[10px] file:uppercase file:tracking-widest file:bg-gray-800 file:text-white hover:file:bg-gray-700 cursor-pointer">
+                            </div>
+
+                            <div class="flex items-center justify-between pt-4">
+                                <div class="flex items-start gap-3 max-w-[60%]">
+                                    <input type="checkbox" id="policy" required
+                                        class="mt-1 bg-transparent border-gray-600 rounded-none w-3 h-3 text-white focus:ring-0 focus:ring-offset-0">
+                                    <label for="policy" class="text-[9px] text-gray-500 leading-tight">
+                                        Я ознакомлен(а) с политикой обработки персональных данных и даю согласие на их
+                                        обработку.
+                                    </label>
+                                </div>
+
+                                <button type="submit"
+                                    class="text-[10px] uppercase tracking-[0.2em] font-bold border-b border-white pb-1 hover:text-gray-300 hover:border-gray-500 transition-colors">
+                                    Отправить
+                                </button>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+{% endblock %}

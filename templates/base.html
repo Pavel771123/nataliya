@@ -1,0 +1,237 @@
+<!DOCTYPE html>
+<html lang="ru">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{% block title %}Nataliya Kulchinskaya | Interior Designer{% endblock %}</title>
+
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+
+    <!-- Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600&family=Playfair+Display:ital,wght@0,400;0,600;1,400&display=swap"
+        rel="stylesheet">
+
+    <!-- Alpine.js & HTMX -->
+    <script defer src="https://cdn.jsdelivr.net/npm/alpinejs@3.x.x/dist/cdn.min.js"></script>
+    <script src="https://unpkg.com/htmx.org@1.9.10"></script>
+
+    <style>
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: #fdfcfb;
+            color: #1a1a1a;
+        }
+
+        .serif {
+            font-family: 'Playfair Display', serif;
+        }
+
+        /* Custom Scrollbar */
+        ::-webkit-scrollbar {
+            width: 8px;
+        }
+
+        ::-webkit-scrollbar-track {
+            background: #f1f1f1;
+        }
+
+        ::-webkit-scrollbar-thumb {
+            background: #d1d1d1;
+            border-radius: 4px;
+        }
+
+        ::-webkit-scrollbar-thumb:hover {
+            background: #b1b1b1;
+        }
+    </style>
+</head>
+
+<body class="min-h-screen flex flex-col">
+
+    <!-- Header -->
+    <header class="absolute top-0 left-0 right-0 z-50 transition-all duration-300">
+        <div class="container mx-auto px-4 md:px-8 h-20 md:h-24 flex items-center justify-between">
+            <!-- Logo -->
+            <a href="/" class="flex flex-col group {% block header_logo_class %}text-[#1a1a1a]{% endblock %}">
+                <span class="serif text-xl md:text-2xl tracking-normal group-hover:opacity-70 transition-opacity">
+                    Наталия Кульчинская
+                </span>
+                <span
+                    class="text-[10px] uppercase tracking-[0.2em] opacity-60 mt-0.5 group-hover:opacity-70 transition-opacity">
+                    Interior Designer
+                </span>
+            </a>
+
+            <!-- Desktop Nav -->
+            <nav
+                class="hidden md:flex items-center gap-8 text-[11px] uppercase tracking-[0.15em] font-medium {% block header_nav_class %}text-[#1a1a1a]/80{% endblock %}">
+                <a href="/portfolio/" class="hover:text-black transition-colors">Образцы проектов</a>
+                <a href="/pricing/" class="hover:text-black transition-colors">Стоимость</a>
+                <a href="/sketch/" class="hover:text-black transition-colors">Эскизный проект</a>
+                <a href="/portfolio/" class="hover:text-black transition-colors">Портфолио</a>
+                <a href="/about/" class="hover:text-black transition-colors">Обо мне</a>
+                <a href="/contacts/" class="hover:text-black transition-colors">Контакты</a>
+            </nav>
+
+            <!-- Mobile Menu Button (Alpine) -->
+            <div class="md:hidden text-[#1a1a1a]" x-data="{ open: false }">
+                <button @click="open = !open" class="p-2 space-y-1.5 z-50 relative">
+                    <span class="block w-6 h-0.5 bg-current transition-transform"
+                        :class="open ? 'rotate-45 translate-y-2' : ''"></span>
+                    <span class="block w-6 h-0.5 bg-current transition-opacity" :class="open ? 'opacity-0' : ''"></span>
+                    <span class="block w-6 h-0.5 bg-current transition-transform"
+                        :class="open ? '-rotate-45 -translate-y-2' : ''"></span>
+                </button>
+
+                <!-- Mobile Menu Overlay -->
+                <div x-show="open" x-transition.opacity
+                    class="fixed inset-0 bg-[#fdfcfb] z-40 flex flex-col items-center justify-center space-y-8 text-sm uppercase tracking-widest text-[#1a1a1a]"
+                    @click.outside="open = false" style="display: none;">
+                    <a href="/portfolio/" class="hover:text-gray-500">Образцы проектов</a>
+                    <a href="/pricing/" class="hover:text-gray-500">Стоимость</a>
+                    <a href="/sketch/" class="hover:text-gray-500">Эскизный проект</a>
+                    <a href="/portfolio/" class="hover:text-gray-500">Портфолио</a>
+                    <a href="/about/" class="hover:text-gray-500">Обо мне</a>
+                    <a href="/contacts/" class="hover:text-gray-500">Контакты</a>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <!-- Main Content -->
+    <main class="flex-grow">
+        {% block content %}{% endblock %}
+    </main>
+
+    <!-- Footer / Contact Section (Screen 4 bottom) -->
+    <footer class="bg-[#1a1a1a] text-white py-20 mt-0">
+        <div class="container mx-auto px-4 md:px-8">
+            <div class="flex flex-col lg:flex-row gap-16 lg:gap-32">
+                <!-- Left: Contact Info -->
+                <div class="w-full lg:w-4/12 flex flex-col justify-between">
+                    <div>
+                        <h2 class="serif text-4xl md:text-5xl mb-3">Давайте<br>встретимся</h2>
+                        <p class="text-[10px] uppercase tracking-[0.2em] text-gray-500 mb-12">Обсудить ваш проект</p>
+
+                        <div class="space-y-4 mb-12">
+                            <a href="tel:+70000000000"
+                                class="block text-xl hover:text-gray-300 transition-colors font-medium hover:underline decoration-1 underline-offset-4">+7
+                                000 000 000</a>
+                            <a href="mailto:info@nk-interiors.ru"
+                                class="block text-sm text-gray-400 hover:text-white transition-colors">Эл. почта:
+                                info@nk-interiors.ru</a>
+                        </div>
+                    </div>
+
+                    <div class="space-y-8">
+                        <div>
+                            <p class="text-[9px] uppercase tracking-widest text-gray-600 mb-4">Социальные сети</p>
+                            <div class="flex gap-4">
+                                <!-- Instagram Icon -->
+                                <a href="#"
+                                    class="w-10 h-10 rounded-full border border-gray-700 flex items-center justify-center hover:bg-white hover:text-black transition-all group">
+                                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24"
+                                        fill="none" class="stroke-current" stroke-width="2" stroke-linecap="round"
+                                        stroke-linejoin="round">
+                                        <rect x="2" y="2" width="20" height="20" rx="5" ry="5"></rect>
+                                        <path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z"></path>
+                                        <line x1="17.5" y1="6.5" x2="17.51" y2="6.5"></line>
+                                    </svg>
+                                </a>
+                                <!-- WhatsApp Icon -->
+                                <a href="#"
+                                    class="w-10 h-10 rounded-full border border-gray-700 flex items-center justify-center hover:bg-white hover:text-black transition-all group">
+                                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24"
+                                        fill="none" class="stroke-current" stroke-width="2" stroke-linecap="round"
+                                        stroke-linejoin="round">
+                                        <path
+                                            d="M21 11.5a8.38 8.38 0 0 1-.9 3.8 8.5 8.5 0 0 1-7.6 4.7 8.38 8.38 0 0 1-3.8-.9L3 21l1.9-5.7a8.38 8.38 0 0 1-.9-3.8 8.5 8.5 0 0 1 4.7-7.6 8.38 8.38 0 0 1 3.8-.9h.5a8.48 8.48 0 0 1 8 8v.5z">
+                                        </path>
+                                    </svg>
+                                </a>
+                                <!-- Phone Icon -->
+                                <a href="#"
+                                    class="w-10 h-10 rounded-full border border-gray-700 flex items-center justify-center hover:bg-white hover:text-black transition-all group">
+                                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24"
+                                        fill="none" class="stroke-current" stroke-width="2" stroke-linecap="round"
+                                        stroke-linejoin="round">
+                                        <path
+                                            d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z">
+                                        </path>
+                                    </svg>
+                                </a>
+                            </div>
+                        </div>
+
+                        <p class="text-[9px] text-gray-700 leading-tight max-w-xs">
+                            *Нажимая кнопку, вы соглашаетесь с условиями обработки персональных данных и даете согласие
+                            на их обработку.
+                        </p>
+                    </div>
+                </div>
+
+                <!-- Right: Form -->
+                <div class="w-full lg:w-8/12 bg-[#222] p-8 md:p-12 lg:p-16">
+                    <h3 class="serif text-2xl text-white mb-2">Оставить заявку</h3>
+                    <p class="text-xs text-gray-400 mb-12">Заполните форму, и я обязательно свяжусь с вами, чтобы
+                        обсудить детали и стоимость проекта.</p>
+
+                    <div id="footer-form-result">
+                        <form hx-post="{% url 'leads:submit' %}" hx-target="#footer-form-result" hx-swap="innerHTML"
+                            enctype="multipart/form-data" class="space-y-8">
+                            {% csrf_token %}
+                            <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
+                                <div class="group">
+                                    <input type="text" name="name" required placeholder="Фамилия и Имя"
+                                        class="w-full bg-transparent border-b border-gray-700 py-3 text-sm text-white placeholder-gray-500 focus:outline-none focus:border-white transition-colors">
+                                </div>
+                                <div class="group">
+                                    <input type="tel" name="phone" required placeholder="Номер телефона"
+                                        class="w-full bg-transparent border-b border-gray-700 py-3 text-sm text-white placeholder-gray-500 focus:outline-none focus:border-white transition-colors">
+                                </div>
+                            </div>
+
+                            <div>
+                                <input type="text" name="description" placeholder="Расскажите о вашем проекте"
+                                    class="w-full bg-transparent border-b border-gray-700 py-3 text-sm text-white placeholder-gray-500 focus:outline-none focus:border-white transition-colors">
+                            </div>
+
+                            <!-- PDF File Input -->
+                            <div class="group">
+                                <label class="block text-[10px] uppercase tracking-widest text-gray-500 mb-2">
+                                    Прикрепить файл (PDF, до 5МБ)
+                                </label>
+                                <input type="file" name="file" accept=".pdf"
+                                    class="block w-full text-xs text-gray-400 file:mr-4 file:py-2 file:px-4 file:rounded-full file:border-0 file:text-[10px] file:uppercase file:tracking-widest file:bg-gray-800 file:text-white hover:file:bg-gray-700 cursor-pointer">
+                            </div>
+
+                            <div class="pt-8 flex items-start gap-4">
+                                <div class="flex items-center h-5">
+                                    <input id="privacy" type="checkbox" required
+                                        class="w-4 h-4 rounded border-gray-600 text-white focus:ring-0 bg-transparent">
+                                </div>
+                                <label for="privacy" class="text-[10px] text-gray-500 leading-tight pt-0.5">
+                                    Я ознакомлен(а) с политикой обработки персональных данных и даю согласие на их
+                                    обработку.
+                                </label>
+
+                                <button type="submit"
+                                    class="ml-auto text-[10px] uppercase tracking-widest text-white border-b border-white pb-1 hover:text-gray-300 hover:border-gray-300 transition-colors">
+                                    Отправить
+                                </button>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+</body>
+
+</html>

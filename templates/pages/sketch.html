@@ -1,0 +1,112 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %}Эскизный проект | Nataliya Kulchinskaya{% endblock %}
+
+{% block content %}
+<!-- Page Header / Hero -->
+<section
+    class="relative h-[60vh] min-h-[400px] flex items-center justify-center overflow-hidden bg-gray-900 text-white">
+    <!-- Background -->
+    <div class="absolute inset-0 z-0">
+        <img src="https://images.unsplash.com/photo-1618221195710-dd6b41faaea6?ixlib=rb-4.0.3&auto=format&fit=crop&w=1920&q=80"
+            alt="Sketch Background" class="w-full h-full object-cover opacity-60">
+        <div class="absolute inset-0 bg-gradient-to-t from-black/50 via-transparent to-black/30"></div>
+    </div>
+
+    <!-- Content -->
+    <div class="relative z-10 text-center container mx-auto px-4 fade-in">
+        <span class="text-[10px] uppercase tracking-[0.3em] text-gray-300 mb-4 block">Услуги студии</span>
+        <h1 class="serif text-4xl md:text-6xl lg:text-7xl mb-6">Эскизный проект</h1>
+        <div class="h-px w-16 bg-white/50 mx-auto"></div>
+    </div>
+</section>
+
+<!-- Description Section -->
+<section class="py-20 md:py-28 bg-white">
+    <div class="container mx-auto px-4 md:px-8 max-w-5xl">
+        <div class="flex flex-col md:flex-row gap-12 items-start">
+            <div class="w-full md:w-1/2">
+                <h2 class="serif text-3xl md:text-4xl text-[#1a1a1a] mb-6 leading-tight">
+                    Стилистическая концепция вашего будущего интерьера
+                </h2>
+                <div
+                    class="text-[11px] uppercase tracking-[0.2em] font-bold text-[#1a1a1a] border-l-2 border-black pl-4 py-1">
+                    Стоимость: от 13 $ / м²
+                </div>
+            </div>
+            <div class="w-full md:w-1/2 text-gray-600 font-light space-y-6 leading-relaxed">
+                <p>
+                    Эскизный проект — это первый и самый творческий этап работы над интерьером.
+                    Здесь мы определяем настроение, цветовую гамму, стиль и планировочные решения.
+                </p>
+                <p>
+                    В результате вы получаете не просто набор картинок, а цельную концепцию,
+                    которая станет основой для дальнейшего рабочего проектирования и реализации.
+                    Мы создаем мудборды (коллажи настроения) и эскизные визуализации, чтобы вы могли
+                    почувствовать атмосферу вашего будущего дома.
+                </p>
+                <ul class="space-y-3 pt-4">
+                    <li class="flex items-center gap-3">
+                        <span class="w-1.5 h-1.5 bg-[#1a1a1a] rounded-full"></span>
+                        <span class="text-sm">Обмерный план</span>
+                    </li>
+                    <li class="flex items-center gap-3">
+                        <span class="w-1.5 h-1.5 bg-[#1a1a1a] rounded-full"></span>
+                        <span class="text-sm">Планировочное решение (2-3 варианта)</span>
+                    </li>
+                    <li class="flex items-center gap-3">
+                        <span class="w-1.5 h-1.5 bg-[#1a1a1a] rounded-full"></span>
+                        <span class="text-sm">Стилистические коллажи (Moodboards)</span>
+                    </li>
+                    <li class="flex items-center gap-3">
+                        <span class="w-1.5 h-1.5 bg-[#1a1a1a] rounded-full"></span>
+                        <span class="text-sm">План расстановки мебели</span>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- Gallery / Examples -->
+<section class="py-12 bg-[#fdfcfb]">
+    <div class="container mx-auto px-4 md:px-8">
+        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+            <!-- Image 1 -->
+            <div class="aspect-square group overflow-hidden relative cursor-pointer">
+                <img src="https://images.unsplash.com/photo-1618221381711-42ca8ab6e908?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80"
+                    class="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105"
+                    alt="Sketch example">
+                <div class="absolute inset-0 bg-black/0 group-hover:bg-black/20 transition-colors duration-300"></div>
+            </div>
+            <!-- Image 2 -->
+            <div class="aspect-square group overflow-hidden relative cursor-pointer">
+                <img src="https://images.unsplash.com/photo-1631679706909-1844bbd07221?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80"
+                    class="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105"
+                    alt="Sketch example">
+                <div class="absolute inset-0 bg-black/0 group-hover:bg-black/20 transition-colors duration-300"></div>
+            </div>
+            <!-- Image 3 -->
+            <div class="aspect-square group overflow-hidden relative cursor-pointer">
+                <img src="https://images.unsplash.com/photo-1615529182904-14819c35db37?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80"
+                    class="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105"
+                    alt="Sketch example">
+                <div class="absolute inset-0 bg-black/0 group-hover:bg-black/20 transition-colors duration-300"></div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- CTA -->
+<section class="py-24 bg-white text-center">
+    <div class="container mx-auto px-4">
+        <h3 class="serif text-3xl mb-8">Готовы начать преображение?</h3>
+        <a href="/contacts/"
+            class="inline-block border border-black px-10 py-4 text-[11px] uppercase tracking-[0.2em] hover:bg-black hover:text-white transition-all duration-300">
+            Заказать эскизный проект
+        </a>
+    </div>
+</section>
+
+{% endblock %}

@@ -140,6 +140,17 @@ class Project(BaseModel):
     def __str__(self):
         return f"{self.title} ({self.year})"
     
+    @property
+    def main_image(self):
+        """Get the main image for the project."""
+        cover = self.images.filter(is_cover=True).first()
+        if cover:
+            return cover.image
+        first_image = self.images.first()
+        if first_image:
+            return first_image.image
+        return None
+
     def get_absolute_url(self):
         """Get the absolute URL for the project."""
         from django.urls import reverse

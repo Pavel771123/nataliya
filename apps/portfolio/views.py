@@ -22,7 +22,7 @@ class ProjectListView(ListView):
         queryset = Project.objects.filter(
             is_published=True,
             is_deleted=False
-        ).select_related('category').prefetch_related('images')
+        ).exclude(slug='').select_related('category').prefetch_related('images')
         
         # Filter by category if provided
         category_slug = self.kwargs.get('category_slug')
@@ -35,7 +35,9 @@ class ProjectListView(ListView):
         """Add context data."""
         context = super().get_context_data(**kwargs)
         context['page_title'] = _('Портфолио')
-        context['categories'] = ProjectCategory.objects.filter(is_deleted=False)
+        context['categories'] = ProjectCategory.objects.filter(
+            is_deleted=False
+        ).exclude(slug='').order_by('order', 'name')
         
         # Add current category if filtering
         category_slug = self.kwargs.get('category_slug')
@@ -78,6 +80,6 @@ class ProjectDetailView(DetailView):
             is_published=True,
             is_deleted=False,
             category=self.object.category
-        ).exclude(id=self.object.id)[:3]
+        ).exclude(slug='').exclude(id=self.object.id)[:3]
         
         return context

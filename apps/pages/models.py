@@ -67,3 +67,48 @@ class Page(BaseModel):
         """Get the absolute URL for the page."""
         from django.urls import reverse
         return reverse('pages:page_detail', kwargs={'slug': self.slug})
+
+class Testimonial(BaseModel):
+    """
+    Client testimonial model.
+    """
+    
+    client_name = models.CharField(
+        _('Имя клиента'),
+        max_length=100,
+        help_text=_('Имя клиента')
+    )
+    client_info = models.CharField(
+        _('Информация о проекте'),
+        max_length=200,
+        blank=True,
+        help_text=_('Например: ЖК Символ, 100 м²')
+    )
+    text = models.TextField(
+        _('Текст отзыва'),
+        help_text=_('Текст отзыва')
+    )
+    rating = models.IntegerField(
+        _('Оценка'),
+        default=5,
+        choices=[(i, str(i)) for i in range(1, 6)],
+        help_text=_('Оценка от 1 до 5')
+    )
+    is_published = models.BooleanField(
+        _('Опубликовано'),
+        default=True,
+        help_text=_('Отображать отзыв на сайте')
+    )
+    order = models.IntegerField(
+        _('Порядок'),
+        default=0,
+        help_text=_('Порядок отображения')
+    )
+    
+    class Meta:
+        verbose_name = _('Отзыв')
+        verbose_name_plural = _('Отзывы')
+        ordering = ['order', '-created_at']
+    
+    def __str__(self):
+        return f"{self.client_name} ({self.rating}★)"

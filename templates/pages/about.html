@@ -1,0 +1,186 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %}Обо мне | Nataliya Kulchinskaya{% endblock %}
+
+{% block content %}
+
+<!-- Hero Section -->
+<section class="pt-32 pb-20 md:pt-40 md:pb-32 bg-white">
+    <div class="container mx-auto px-4 md:px-8">
+        <div class="flex flex-col md:flex-row gap-12 lg:gap-24 items-start">
+            <!-- Text Content -->
+            <div class="w-full md:w-1/2 pt-8">
+                <h1 class="serif text-4xl md:text-5xl lg:text-6xl text-[#1a1a1a] mb-8 leading-tight">
+                    Искусство <br>
+                    <span class="italic text-gray-400">создавать дом</span>
+                </h1>
+
+                <div class="text-xs md:text-sm text-gray-500 font-light leading-relaxed space-y-6 max-w-md">
+                    <p>
+                        Мой путь в дизайне начался с глубокого убеждения: пространство, в котором мы живем,
+                        напрямую формирует наше внутреннее состояние.
+                    </p>
+                    <p>
+                        Я не просто расставляю мебель, я проектирую сценарии вашей будущей жизни.
+                    </p>
+                </div>
+            </div>
+
+            <!-- Image -->
+            <div class="w-full md:w-1/2 relative">
+                <div class="aspect-[4/3] bg-gray-100 relative z-10">
+                    <img src="https://images.unsplash.com/photo-1598928636135-d146006ff4be?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80"
+                        alt="Work process" class="w-full h-full object-cover">
+                </div>
+                <!-- Decorative element -->
+                <div class="absolute -right-4 -bottom-4 w-full h-full border border-gray-100 -z-0"></div>
+            </div>
+        </div>
+    </div>
+</section>
+<!-- Values / Stats Section -->
+<section class="py-16 bg-white">
+    <div class="container mx-auto px-4 md:px-8">
+        <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-8">
+            <!-- Item 1 -->
+            <div class="p-8 bg-[#fdfcfb] border border-gray-50 group hover:shadow-sm transition-shadow">
+                <div class="text-[#c5a47e] mb-6">
+                    <!-- Icon: Trophy/Ribbon -->
+                    <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1">
+                        <path d="M12 15l-2 5l2 2l2 -2l-2 -5"></path>
+                        <path d="M14 6a2 2 0 1 0 -4 0a2 2 0 0 0 4 0"></path>
+                        <path d="M7 16a6 6 0 1 0 10 0"></path>
+                    </svg>
+                </div>
+                <h3 class="serif text-lg text-[#1a1a1a] mb-3">Опыт</h3>
+                <p class="text-sm text-gray-600 leading-relaxed">
+                    Более 10 лет практики и десятки реализованных объектов в разных стилях.
+                </p>
+            </div>
+
+            <!-- Item 2 -->
+            <div class="p-8 bg-[#fdfcfb] border border-gray-50 group hover:shadow-sm transition-shadow">
+                <div class="text-[#c5a47e] mb-6">
+                    <!-- Icon: Book -->
+                    <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1">
+                        <path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20"></path>
+                        <path d="M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2z"></path>
+                    </svg>
+                </div>
+                <h3 class="serif text-lg text-[#1a1a1a] mb-3">Образование</h3>
+                <p class="text-sm text-gray-600 leading-relaxed">
+                    Высшее архитектурное образование и постоянное повышение квалификации в Европе.
+                </p>
+            </div>
+
+            <!-- Item 3 -->
+            <div class="p-8 bg-[#fdfcfb] border border-gray-50 group hover:shadow-sm transition-shadow">
+                <div class="text-[#c5a47e] mb-6">
+                    <!-- Icon: Pen/Nib -->
+                    <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1">
+                        <path d="M12 19l7-7 3 3-7 7-3-3z"></path>
+                        <path d="M18 13l-1.5-7.5L2 2l3.5 14.5L13 18l5-5z"></path>
+                        <path d="M2 2l7.586 7.586"></path>
+                        <circle cx="11" cy="11" r="2"></circle>
+                    </svg>
+                </div>
+                <h3 class="serif text-lg text-[#1a1a1a] mb-3">Индивидуальность</h3>
+                <p class="text-sm text-gray-600 leading-relaxed">
+                    Никаких шаблонов. Каждый проект — это отражение личности заказчика.
+                </p>
+            </div>
+
+            <!-- Item 4 -->
+            <div class="p-8 bg-[#fdfcfb] border border-gray-50 group hover:shadow-sm transition-shadow">
+                <div class="text-[#c5a47e] mb-6">
+                    <!-- Icon: Heart -->
+                    <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1">
+                        <path
+                            d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z">
+                        </path>
+                    </svg>
+                </div>
+                <h3 class="serif text-lg text-[#1a1a1a] mb-3">Душа</h3>
+                <p class="text-sm text-gray-600 leading-relaxed">
+                    Вкладываем частицу своего вдохновения в каждую деталь вашего интерьера.
+                </p>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- Testimonials Section -->
+<section class="py-20 bg-white border-t border-gray-100">
+    <div class="container mx-auto px-4 md:px-8">
+        <h2 class="serif text-3xl text-center md:text-left text-[#1a1a1a] mb-12">Отзывы клиентов</h2>
+
+        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+            {% for review in testimonials %}
+            <div class="bg-[#fdfcfb] p-8 relative">
+                <!-- Quote Icon -->
+                <div class="absolute right-6 top-6 text-gray-100 text-6xl serif leading-none font-serif select-none">”
+                </div>
+
+                <!-- Stars -->
+                <div class="flex gap-1 mb-6 text-yellow-400 text-xs">
+                    {% for i in "12345"|make_list %}
+                    {% if forloop.counter <= review.rating %}★{% else %}☆{% endif %} {% endfor %} </div>
+
+                        <!-- Text -->
+                        <p
+                            class="text-[14px] italic text-gray-600 leading-relaxed mb-8 relative z-10 min-h-[80px] break-words">
+                            "{{ review.text|truncatechars:200 }}"
+                        </p>
+
+                        <!-- Author -->
+                        <div class="mt-auto">
+                            <h4 class="text-[12px] font-bold uppercase tracking-widest text-[#1a1a1a]">
+                                {{review.client_name }}</h4>
+                            {% if review.client_info %}
+                            <p class="text-[10px] uppercase tracking-widest text-gray-400 mt-1">{{ review.client_info }}
+                            </p>
+                            {% endif %}
+                        </div>
+                </div>
+                {% empty %}
+
+                {% endfor %}
+            </div>
+        </div>
+</section>
+
+<!-- Philosophy -->
+<section class="py-20 bg-white">
+    <div class="container mx-auto px-4 md:px-8 max-w-4xl text-center md:text-left">
+        <h2 class="serif text-2xl text-[#1a1a1a] mb-6">Моя философия</h2>
+        <div
+            class="text-xs md:text-sm text-gray-500 font-light leading-relaxed space-y-4 columns-1 md:columns-2 gap-12">
+            <p>
+                Я считаю, что настоящая роскошь — это не золото и лепнина, а тишина, свет и воздух. В моих проектах вы
+                увидите много естественных материалов: дерево, камень, лен. Они стареют красиво и создают ощущение
+                вневременности.
+            </p>
+            <p>
+                Дизайн должен быть интеллектуальным. Это значит, что каждая розетка находится там, где она нужна, а свет
+                подчеркивает достоинства архитектуры, не ослепляя. Мы работаем над эргономикой так же тщательно, как над
+                эстетикой.
+            </p>
+        </div>
+    </div>
+</section>
+
+<!-- Footer Quote Block -->
+<section class="py-24 bg-[#1a1a1a] text-white">
+    <div class="container mx-auto px-4 md:px-8 text-center max-w-3xl">
+        <blockquote class="serif text-xl md:text-2xl lg:text-3xl italic leading-relaxed mb-12">
+            "Дизайн — это не то, как вещь выглядит, а то, как она работает и какие чувства вызывает."
+        </blockquote>
+
+        <a href="/"
+            class="inline-block border-b border-whitepb-1 text-[10px] uppercase tracking-[0.25em] hover:opacity-70 transition-opacity">
+            Вернуться на сайт
+        </a>
+    </div>
+</section>
+{% endblock %}

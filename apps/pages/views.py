@@ -21,6 +21,32 @@ class HomeView(TemplateView):
         context = super().get_context_data(**kwargs)
         context['page_title'] = _('Главная')
         context['meta_description'] = _('Добро пожаловать на наш сайт')
+        
+        # Portfolio data
+        from apps.portfolio.models import Project, ProjectCategory
+        
+        # Latest 2 projects for "All" tab
+        context['latest_projects'] = Project.objects.filter(
+            is_published=True, 
+            is_deleted=False
+        ).select_related('category').prefetch_related('images')[:2]
+        
+        # Categories with their random/latest 2 projects
+        categories = ProjectCategory.objects.filter(is_deleted=False).exclude(slug='')
+        categories_with_projects = []
+        
+        for category in categories:
+            projects = category.projects.filter(
+                is_published=True, 
+                is_deleted=False
+            ).prefetch_related('images')[:2]
+            
+            if projects:
+                category.home_projects = projects
+                categories_with_projects.append(category)
+                
+        context['portfolio_categories'] = categories_with_projects
+        
         return context
 
 
@@ -32,12 +58,17 @@ class AboutView(TemplateView):
     
     template_name = 'pages/about.html'
     
+
     def get_context_data(self, **kwargs):
         """Add context data for the about page."""
         context = super().get_context_data(**kwargs)
         context['page_title'] = _('О нас')
         context['meta_description'] = _('Информация о компании')
+        # Add testimonials
+        from .models import Testimonial
+        context['testimonials'] = Testimonial.objects.filter(is_published=True)[:3]
         return context
+
 
 
 class ContactsView(TemplateView):
@@ -53,6 +84,39 @@ class ContactsView(TemplateView):
         context = super().get_context_data(**kwargs)
         context['page_title'] = _('Контакты')
         context['meta_description'] = _('Свяжитесь с нами')
+        return context
+
+
+
+class SketchView(TemplateView):
+    """
+    Sketch project page view.
+    Displays information about sketch projects.
+    """
+    
+    template_name = 'pages/sketch.html'
+    
+    def get_context_data(self, **kwargs):
+        """Add context data for the sketch page."""
+        context = super().get_context_data(**kwargs)
+        context['page_title'] = _('Эскизный проект')
+        context['meta_description'] = _('Стилистическая концепция интерьера')
+        return context
+
+
+class PricingView(TemplateView):
+    """
+    Pricing page view.
+    Displays services and pricing information.
+    """
+    
+    template_name = 'pages/pricing.html'
+    
+    def get_context_data(self, **kwargs):
+        """Add context data for the pricing page."""
+        context = super().get_context_data(**kwargs)
+        context['page_title'] = _('Стоимость')
+        context['meta_description'] = _('Стоимость наших услуг')
         return context
 
 

@@ -1,0 +1,304 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block header_logo_class %}text-white{% endblock %}
+{% block header_nav_class %}text-white/80{% endblock %}
+
+{% block content %}
+<!-- Hero Section -->
+<section class="h-screen w-full relative overflow-hidden flex items-center">
+    <!-- Background Image -->
+    <div class="absolute inset-0 z-0 bg-gray-300">
+        <!-- 
+            TODO: Replace with actual image from original site. 
+            Using a dark placeholder to ensure white text readability.
+        -->
+        <div class="absolute inset-0 bg-black/30 z-10"></div>
+        <img src="https://images.unsplash.com/photo-1600210492486-724fe5c67fb0?ixlib=rb-4.0.3&auto=format&fit=crop&w=1974&q=80"
+            alt="Interior Background" class="w-full h-full object-cover">
+    </div>
+
+    <!-- Content -->
+    <div class="container mx-auto px-4 md:px-8 relative z-20 pt-20">
+        <div class="max-w-4xl">
+            <h1 class="serif text-5xl md:text-7xl lg:text-8xl text-white leading-[1.1] mb-12">
+                Создаю пространство,<br>
+                <span class="italic">меняю жизнь к</span><br>
+                лучшему
+            </h1>
+
+            <a href="#"
+                class="inline-block bg-white text-black px-10 py-5 text-[11px] uppercase tracking-[0.2em] font-semibold hover:bg-gray-100 transition-colors">
+                Рассчитать проект
+            </a>
+
+            <div class="h-px w-24 bg-white/50 mt-12 mb-8"></div>
+        </div>
+    </div>
+</section>
+
+<!-- About Section -->
+<section class="py-24 md:py-32 bg-white overflow-hidden">
+    <div class="container mx-auto px-4 md:px-8">
+        <div class="flex flex-col md:flex-row gap-12 lg:gap-20 items-stretch">
+
+            <!-- Left: Portrait Image -->
+            <div class="w-full md:w-5/12 lg:w-1/3 relative group">
+                <div class="aspect-[3/4] overflow-hidden w-full relative">
+                    <!-- 
+                        TODO: Replace with actual portrait.
+                        Using Unsplash placeholder for now.
+                    -->
+                    <img src="https://images.unsplash.com/photo-1534528741775-53994a69daeb?ixlib=rb-4.0.3&auto=format&fit=crop&w=1064&q=80"
+                        alt="Nataliya Kulchinskaya" class="w-full h-full object-cover">
+                </div>
+            </div>
+
+            <!-- Right: Content -->
+            <div class="w-full md:w-7/12 lg:w-1/2 flex flex-col justify-center space-y-10">
+
+                <!-- Title -->
+                <div>
+                    <h2 class="serif text-3xl md:text-5xl text-[#1a1a1a] mb-2">
+                        Я – Наталия Кульчинская,
+                    </h2>
+                    <span class="serif text-3xl md:text-5xl text-gray-300">
+                        дизайнер интерьеров
+                    </span>
+                </div>
+
+                <!-- Text -->
+                <div class="text-gray-600 text-sm md:text-base leading-relaxed space-y-6 font-light">
+                    <p>
+                        Попадая каждый раз в новое помещение, которое я должна буду обустроить для заказчика,
+                        прислушиваюсь к тому, что диктует пространство — стены, окна, высота потолка...
+                    </p>
+                    <p>
+                        И пространство вследствие получается правильным, свежим, умеренно наполненным декором.
+                        Я уверена в том, что самая важная составляющая дизайна — комфорт.
+                    </p>
+                </div>
+
+                <!-- Link -->
+                <div>
+                    <a href="/about/"
+                        class="text-[10px] uppercase tracking-[0.2em] font-bold text-black border-b border-black pb-1 hover:opacity-60 transition-opacity">
+                        + Подробнее о моей работе
+                    </a>
+                </div>
+
+                <!-- Quote Block -->
+                <div class="relative pl-8 border-l-2 border-black/80 py-2 mt-8">
+                    <!-- Quote Icon Background Effect -->
+                    <div
+                        class="absolute right-0 top-0 text-gray-100 serif text-9xl leading-none -z-10 select-none opacity-50 font-serif">
+                        ”
+                    </div>
+
+                    <p class="serif text-lg md:text-xl italic text-[#1a1a1a] leading-relaxed relative z-10">
+                        "Буду рисовать всю жизнь. Творчество — это интеллект,
+                        доставляющий удовольствие от воспроизведения шедевров."
+                    </p>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- Services / Pricing Section (Screen 3) -->
+<section class="py-20 bg-white">
+    <div class="container mx-auto px-4 md:px-8">
+        <!-- Section Header -->
+        <div class="text-center mb-16">
+            <h2 class="serif text-3xl md:text-4xl text-[#1a1a1a] mb-3">Образцы проектов</h2>
+            <p class="text-[10px] uppercase tracking-[0.2em] text-gray-400">ВЫБЕРИТЕ ПОДХОДЯЩИЙ ФОРМАТ ДЛЯ ВАШИХ ЦЕЛЕЙ
+            </p>
+        </div>
+
+        <!-- Grid -->
+        <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
+            <!-- Card 1 -->
+            <div class="flex flex-col group">
+                <div class="aspect-[4/5] overflow-hidden mb-6 bg-gray-100 relative">
+                    <img src="https://images.unsplash.com/photo-1598928636135-d146006ff4be?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80"
+                        alt="Planning"
+                        class="object-cover w-full h-full group-hover:scale-105 transition-transform duration-500">
+                </div>
+                <h3 class="serif text-lg uppercase tracking-wide text-[#1a1a1a] mb-3">Планировочное решение</h3>
+                <p class="text-xs text-gray-500 leading-relaxed max-w-xs mb-6 min-h-[40px]">
+                    Фундамент будущего интерьера. Грамотное распределение пространства и эргономика.
+                </p>
+                <div class="mt-auto flex items-center justify-between border-t border-gray-200 pt-4">
+                    <span class="text-[10px] font-bold uppercase tracking-widest text-[#1a1a1a]">От 3 долл/мкв</span>
+                    <a href="/pricing/"
+                        class="text-[10px] uppercase tracking-widest border-b border-[#1a1a1a] pb-0.5 hover:text-gray-600 hover:border-gray-400 transition-colors">
+                        Открыть альбом
+                    </a>
+                </div>
+            </div>
+
+            <!-- Card 2 -->
+            <div class="flex flex-col group">
+                <div class="aspect-[4/5] overflow-hidden mb-6 bg-gray-100 relative">
+                    <img src="https://images.unsplash.com/photo-1542621334-a2591956ca75?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80"
+                        alt="Technical"
+                        class="object-cover w-full h-full group-hover:scale-105 transition-transform duration-500">
+                </div>
+                <h3 class="serif text-lg uppercase tracking-wide text-[#1a1a1a] mb-3">Технический проект</h3>
+                <p class="text-xs text-gray-500 leading-relaxed max-w-xs mb-6 min-h-[40px]">
+                    Полный комплект рабочей документации для строителей. Без визуализаций.
+                </p>
+                <div class="mt-auto flex items-center justify-between border-t border-gray-200 pt-4">
+                    <span class="text-[10px] font-bold uppercase tracking-widest text-[#1a1a1a]">От 7 долл/мкв</span>
+                    <a href="/pricing/"
+                        class="text-[10px] uppercase tracking-widest border-b border-[#1a1a1a] pb-0.5 hover:text-gray-600 hover:border-gray-400 transition-colors">
+                        Открыть альбом
+                    </a>
+                </div>
+            </div>
+
+            <!-- Card 3 -->
+            <div class="flex flex-col group">
+                <div class="aspect-[4/5] overflow-hidden mb-6 bg-gray-100 relative">
+                    <img src="https://images.unsplash.com/photo-1618221195710-dd6b41faaea6?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80"
+                        alt="Sketch"
+                        class="object-cover w-full h-full group-hover:scale-105 transition-transform duration-500">
+                </div>
+                <h3 class="serif text-lg uppercase tracking-wide text-[#1a1a1a] mb-3">Эскизный проект</h3>
+                <p class="text-xs text-gray-500 leading-relaxed max-w-xs mb-6 min-h-[40px]">
+                    Стилистическая концепция. Коллажи и мудборды, передающие атмосферу.
+                </p>
+                <div class="mt-auto flex items-center justify-between border-t border-gray-200 pt-4">
+                    <span class="text-[10px] font-bold uppercase tracking-widest text-[#1a1a1a]">От 13 долл/мкв</span>
+                    <a href="/pricing/"
+                        class="text-[10px] uppercase tracking-widest border-b border-[#1a1a1a] pb-0.5 hover:text-gray-600 hover:border-gray-400 transition-colors">
+                        Открыть альбом
+                    </a>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- Quote Divider (Screen 4 top) -->
+<section class="py-24 bg-white">
+    <div class="container mx-auto px-4 text-center max-w-2xl">
+        <p class="serif text-xl md:text-2xl text-[#1a1a1a] italic leading-relaxed">
+            «Каждое разработанное пространство, в целом, должно вызывать улыбку и будить фантазию.»
+        </p>
+        <p class="text-[9px] uppercase tracking-[0.25em] text-gray-400 mt-6">Наталия Кульчинская</p>
+    </div>
+</section>
+
+<!-- Portfolio Section (Screen 4) -->
+<section class="py-20 bg-white border-t border-gray-100" x-data="{ activeTab: 'all' }">
+    <div class="container mx-auto px-4 md:px-8">
+        <!-- Header & Filters -->
+        <div class="flex flex-col md:flex-row md:items-end justify-between mb-12 gap-6">
+            <div>
+                <h2 class="serif text-3xl md:text-4xl text-[#1a1a1a] mb-3">Портфолио</h2>
+                <p class="text-[10px] uppercase tracking-[0.2em] text-gray-400">ИДЕИ, КОТОРЫЕ Я УЖЕ ПРИДУМАЛА ДЛЯ МОИХ
+                    КЛИЕНТОВ</p>
+            </div>
+
+            <div class="flex flex-wrap gap-2">
+                <!-- All Tab -->
+                <button @click="activeTab = 'all'"
+                    class="text-[10px] uppercase tracking-widest px-4 py-2 transition-all duration-300 border"
+                    :class="activeTab === 'all' ? 'bg-black text-white border-black' : 'bg-transparent text-gray-500 border-gray-200 hover:border-black hover:text-black'">
+                    Все
+                </button>
+
+                <!-- Category Tabs -->
+                {% for category in portfolio_categories %}
+                <button @click="activeTab = '{{ category.slug }}'"
+                    class="text-[10px] uppercase tracking-widest px-4 py-2 transition-all duration-300 border"
+                    :class="activeTab === '{{ category.slug }}' ? 'bg-black text-white border-black' : 'bg-transparent text-gray-500 border-gray-200 hover:border-black hover:text-black'">
+                    {{ category.name }}
+                </button>
+                {% endfor %}
+            </div>
+        </div>
+
+        <!-- Projects Grid Container -->
+        <div class="relative min-h-[400px]">
+            <!-- All Projects -->
+            <div x-show="activeTab === 'all'" x-transition.opacity.duration.500ms
+                class="grid grid-cols-1 md:grid-cols-2 gap-8 md:gap-12">
+                {% for project in latest_projects %}
+                <a href="{{ project.get_absolute_url }}" class="group block">
+                    <div class="overflow-hidden aspect-[16/10] bg-gray-100 mb-6">
+                        {% if project.main_image %}
+                        <img src="{{ project.main_image.url }}" alt="{{ project.title }}"
+                            class="object-cover w-full h-full group-hover:scale-105 transition-transform duration-700">
+                        {% else %}
+                        <div class="w-full h-full flex items-center justify-center text-gray-300">No Image</div>
+                        {% endif %}
+                    </div>
+                    <div class="flex justify-between items-start">
+                        <div>
+                            <h3 class="serif text-xl text-[#1a1a1a] mb-1 group-hover:opacity-70 transition-opacity">
+                                {{ project.title }}
+                            </h3>
+                            <div class="flex gap-3 text-[10px] text-gray-400 font-mono">
+                                <span>{{ project.year }} Г.</span>
+                                {% if project.area %}<span>{{ project.area|floatformat:0 }} M²</span>{% endif %}
+                            </div>
+                        </div>
+                        {% if project.client_type %}
+                        <span class="text-[9px] uppercase tracking-widest bg-gray-100 px-2 py-1 text-gray-500">
+                            {{ project.client_type }}
+                        </span>
+                        {% endif %}
+                    </div>
+                </a>
+                {% endfor %}
+            </div>
+
+            <!-- Categories Loops -->
+            {% for category in portfolio_categories %}
+            <div x-show="activeTab === '{{ category.slug }}'" x-transition.opacity.duration.500ms style="display: none;"
+                class="grid grid-cols-1 md:grid-cols-2 gap-8 md:gap-12">
+                {% for project in category.home_projects %}
+                <a href="{{ project.get_absolute_url }}" class="group block">
+                    <div class="overflow-hidden aspect-[16/10] bg-gray-100 mb-6">
+                        {% if project.main_image %}
+                        <img src="{{ project.main_image.url }}" alt="{{ project.title }}"
+                            class="object-cover w-full h-full group-hover:scale-105 transition-transform duration-700">
+                        {% else %}
+                        <div class="w-full h-full flex items-center justify-center text-gray-300">No Image</div>
+                        {% endif %}
+                    </div>
+                    <div class="flex justify-between items-start">
+                        <div>
+                            <h3 class="serif text-xl text-[#1a1a1a] mb-1 group-hover:opacity-70 transition-opacity">
+                                {{ project.title }}
+                            </h3>
+                            <div class="flex gap-3 text-[10px] text-gray-400 font-mono">
+                                <span>{{ project.year }} Г.</span>
+                                {% if project.area %}<span>{{ project.area|floatformat:0 }} M²</span>{% endif %}
+                            </div>
+                        </div>
+                        {% if project.client_type %}
+                        <span class="text-[9px] uppercase tracking-widest bg-gray-100 px-2 py-1 text-gray-500">
+                            {{ project.client_type }}
+                        </span>
+                        {% endif %}
+                    </div>
+                </a>
+                {% endfor %}
+            </div>
+            {% endfor %}
+        </div>
+
+        <!-- See All Button -->
+        <div class="flex justify-center mt-16">
+            <a href="{% url 'portfolio:project_list' %}"
+                class="inline-block border border-black px-10 py-4 text-[10px] uppercase tracking-[0.25em] text-[#1a1a1a] hover:bg-black hover:text-white transition-all duration-300">
+                Смотреть все проекты
+            </a>
+        </div>
+
+    </div>
+</section>
+{% endblock %}

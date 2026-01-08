@@ -1,0 +1,158 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %}{{ project.title }} | Nataliya Kulchinskaya{% endblock %}
+
+{% block content %}
+<!-- Swiper CSS -->
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.css" />
+
+<div class="bg-white min-h-screen pt-24 pb-12">
+    <div class="container mx-auto px-4 md:px-8 h-full">
+        <div class="flex flex-col lg:flex-row gap-12 lg:gap-20 h-full">
+
+            <!-- Left Sidebar (Sticky) -->
+            <div class="w-full lg:w-1/4 lg:h-[calc(100vh-8rem)] lg:sticky lg:top-32 flex flex-col pt-4">
+                <!-- Back Link -->
+                <a href="{% url 'portfolio:project_list' %}"
+                    class="inline-flex items-center text-[9px] uppercase tracking-widest text-[#1a1a1a] opacity-50 hover:opacity-100 transition-opacity mb-10 group">
+                    <span class="mr-2 group-hover:-translate-x-1 transition-transform">←</span>
+                    Вернуться к списку
+                </a>
+
+                <!-- Title -->
+                <h1 class="serif text-3xl md:text-4xl text-[#1a1a1a] mb-8 leading-tight">
+                    {{ project.title }}
+                </h1>
+
+                <!-- Metadata -->
+                <div class="grid grid-cols-1 gap-6 mb-8 text-[10px] uppercase tracking-widest text-gray-500 font-mono">
+                    <div>
+                        <span class="block text-gray-300 mb-1">Год реализации</span>
+                        <span class="text-[#1a1a1a]">{{ project.year }}</span>
+                    </div>
+                    {% if project.area %}
+                    <div>
+                        <span class="block text-gray-300 mb-1">Площадь объекта</span>
+                        <span class="text-[#1a1a1a]">{{ project.area|floatformat:0 }} М²</span>
+                    </div>
+                    {% endif %}
+                    {% if project.client_type %}
+                    <div>
+                        <span class="block text-gray-300 mb-1">Категория</span>
+                        <span class="text-[#1a1a1a]">{{ project.client_type }}</span>
+                    </div>
+                    {% endif %}
+                </div>
+
+                <!-- Description -->
+                <div class="text-xs md:text-sm text-gray-500 leading-relaxed font-light mb-auto max-w-sm">
+                    {{ project.description|linebreaksbr }}
+                </div>
+
+                <!-- CTA Button -->
+                <div class="mt-12 lg:mt-8">
+                    <a href="{% url 'pages:contacts' %}"
+                        class="inline-block border border-black px-8 py-4 text-[10px] uppercase tracking-[0.25em] text-[#1a1a1a] hover:bg-black hover:text-white transition-all duration-300 w-full text-center">
+                        Хочу такой же дизайн
+                    </a>
+                </div>
+            </div>
+
+            <!-- Right Content (Swiper Slider) -->
+            <div class="w-full lg:w-3/4 relative group slider-container">
+                <!-- Swiper -->
+                <div class="swiper mySwiper w-full h-full aspect-[16/10] relative shadow-2xl rounded-sm">
+                    <div class="swiper-wrapper bg-gray-50">
+                        {% if project.images.all %}
+                        {% for image in project.images.all %}
+                        <div class="swiper-slide w-full h-full">
+                            <img src="{{ image.image.url }}" alt="{{ image.title|default:project.title }}"
+                                class="w-full h-full object-cover">
+                        </div>
+                        {% endfor %}
+                        {% else %}
+                        <!-- Fallback if no images -->
+                        <div class="swiper-slide w-full h-full">
+                            {% if project.main_image %}
+                            <img src="{{ project.main_image.url }}" alt="{{ project.title }}"
+                                class="w-full h-full object-cover">
+                            {% else %}
+                            <div class="w-full h-full flex items-center justify-center text-gray-300">No Images</div>
+                            {% endif %}
+                        </div>
+                        {% endif %}
+                    </div>
+
+                    <!-- Navigation Arrows -->
+                    <div
+                        class="swiper-button-next !w-14 !h-14 !bg-white !rounded-full !text-[#1a1a1a] !after:text-lg !shadow-xl hover:!scale-105 transition-transform !right-4 md:!right-8 after:!font-bold">
+                    </div>
+                    <div
+                        class="swiper-button-prev !w-14 !h-14 !bg-white !rounded-full !text-[#1a1a1a] !after:text-lg !shadow-xl hover:!scale-105 transition-transform !left-4 md:!left-8 after:!font-bold">
+                    </div>
+
+                    <!-- Pagination -->
+                    <div class="swiper-pagination !bottom-6"></div>
+                </div>
+            </div>
+
+        </div>
+    </div>
+</div>
+
+<!-- Swiper JS -->
+<script src="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.js"></script>
+
+<style>
+    /* Custom Swiper Styles */
+    .swiper-pagination-bullet {
+        width: 8px;
+        height: 8px;
+        background: black;
+        opacity: 0.2;
+        transition: all 0.3s;
+        margin: 0 6px !important;
+    }
+
+    .swiper-pagination-bullet-active {
+        opacity: 1;
+        background: #1a1a1a;
+        transform: scale(1.2);
+    }
+
+    .swiper-button-next::after,
+    .swiper-button-prev::after {
+        font-size: 1.2rem !important;
+    }
+
+    /* Ensure content fits */
+    .swiper {
+        width: 100%;
+        height: 100%;
+    }
+</style>
+
+<script>
+    var swiper = new Swiper(".mySwiper", {
+        loop: true,
+        grabCursor: true,
+        spaceBetween: 0,
+        speed: 600,
+        navigation: {
+            nextEl: ".swiper-button-next",
+            prevEl: ".swiper-button-prev",
+        },
+        pagination: {
+            el: ".swiper-pagination",
+            clickable: true,
+        },
+        keyboard: {
+            enabled: true,
+        },
+        mousewheel: {
+            forceToAxis: true,
+        },
+    });
+</script>
+{% endblock %}

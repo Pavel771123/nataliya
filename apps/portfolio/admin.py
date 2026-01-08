@@ -11,9 +11,16 @@ class ProjectImageInline(admin.TabularInline):
     """Inline admin for project images."""
     
     model = ProjectImage
-    extra = 1
-    fields = ['image', 'title', 'description', 'order', 'is_cover']
-    readonly_fields = ['created_at']
+    extra = 5
+    fields = ['image', 'image_preview', 'title', 'order', 'is_cover']
+    readonly_fields = ['image_preview', 'created_at']
+    
+    def image_preview(self, obj):
+        if obj.image:
+            from django.utils.html import mark_safe
+            return mark_safe(f'<img src="{obj.image.url}" style="height: 50px; border-radius: 4px;" />')
+        return ""
+    image_preview.short_description = "Превью"
 
 
 class ProjectCharacteristicInline(admin.TabularInline):
@@ -125,40 +132,40 @@ class ProjectAdmin(admin.ModelAdmin):
         return qs.filter(is_deleted=False)
 
 
-@admin.register(ProjectImage)
-class ProjectImageAdmin(admin.ModelAdmin):
-    """Admin interface for ProjectImage model."""
+
+# class ProjectImageAdmin(admin.ModelAdmin):
+#     """Admin interface for ProjectImage model."""
     
-    list_display = [
-        'project',
-        'title',
-        'is_cover',
-        'order',
-        'created_at'
-    ]
-    list_filter = ['is_cover', 'project', 'created_at']
-    search_fields = ['title', 'description', 'project__title']
-    list_editable = ['order', 'is_cover']
-    readonly_fields = ['id', 'created_at', 'updated_at']
+#     list_display = [
+#         'project',
+#         'title',
+#         'is_cover',
+#         'order',
+#         'created_at'
+#     ]
+#     list_filter = ['is_cover', 'project', 'created_at']
+#     search_fields = ['title', 'description', 'project__title']
+#     list_editable = ['order', 'is_cover']
+#     readonly_fields = ['id', 'created_at', 'updated_at']
     
-    fieldsets = (
-        (_('Основная информация'), {
-            'fields': (
-                'project',
-                'image',
-                'title',
-                'description',
-                'order',
-                'is_cover'
-            )
-        }),
-        (_('Системная информация'), {
-            'fields': (
-                'id',
-                'created_at',
-                'updated_at',
-                'is_deleted'
-            ),
-            'classes': ('collapse',)
-        })
-    )
+#     fieldsets = (
+#         (_('Основная информация'), {
+#             'fields': (
+#                 'project',
+#                 'image',
+#                 'title',
+#                 'description',
+#                 'order',
+#                 'is_cover'
+#             )
+#         }),
+#         (_('Системная информация'), {
+#             'fields': (
+#                 'id',
+#                 'created_at',
+#                 'updated_at',
+#                 'is_deleted'
+#             ),
+#             'classes': ('collapse',)
+#         })
+#     )

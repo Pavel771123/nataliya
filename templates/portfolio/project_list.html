@@ -1,0 +1,143 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %}{{ page_title }} | Nataliya Kulchinskaya{% endblock %}
+
+{% block content %}
+<!-- Page Header & Filters -->
+<section class="pt-32 pb-12 bg-white">
+    <div class="container mx-auto px-4 md:px-8">
+        <div class="flex flex-col md:flex-row justify-between items-end gap-8">
+            <!-- Left: Title & Subtitle -->
+            <div>
+                <h1 class="serif text-4xl md:text-5xl text-[#1a1a1a] mb-4">{{ page_title }}</h1>
+                <p class="text-[10px] uppercase tracking-[0.2em] text-gray-400">
+                    Идеи, которые я уже придумала для моих клиентов
+                </p>
+            </div>
+
+            <!-- Right: Tabs/Filters -->
+            <div class="flex flex-wrap gap-2">
+                <a href="{% url 'portfolio:project_list' %}"
+                    class="{% if not current_category %}bg-black text-white border-black{% else %}bg-transparent text-gray-400 border-gray-100 hover:border-gray-300 hover:text-gray-600{% endif %} border px-6 py-2 text-[10px] uppercase tracking-widest transition-all duration-300">
+                    Все
+                </a>
+
+                {% for category in categories %}
+                <a href="{% url 'portfolio:project_list_by_category' category.slug %}"
+                    class="{% if current_category.id == category.id %}bg-black text-white border-black{% else %}bg-transparent text-gray-400 border-gray-100 hover:border-gray-300 hover:text-gray-600{% endif %} border px-6 py-2 text-[10px] uppercase tracking-widest transition-all duration-300">
+                    {{ category.name }}
+                </a>
+                {% endfor %}
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- Projects Grid -->
+<section class="pb-32 bg-white min-h-[50vh]">
+    <div class="container mx-auto px-4 md:px-8">
+        {% if projects %}
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-8 md:gap-12">
+            {% for project in projects %}
+            <a href="{{ project.get_absolute_url }}" class="group block fade-in-up"
+                style="animation-delay: {{ forloop.counter0|add:'1' }}00ms">
+                <div class="overflow-hidden aspect-[16/10] bg-gray-100 mb-6 relative">
+                    {% if project.main_image %}
+                    <img src="{{ project.main_image.url }}" alt="{{ project.title }}"
+                        class="object-cover w-full h-full group-hover:scale-105 transition-transform duration-700">
+                    {% else %}
+                    <div class="w-full h-full flex items-center justify-center text-gray-300 bg-gray-100">
+                        <span class="serif italic text-2xl">No Image</span>
+                    </div>
+                    {% endif %}
+
+                    <!-- Overlay on hover -->
+                    <div class="absolute inset-0 bg-black/0 group-hover:bg-black/10 transition-colors duration-500">
+                    </div>
+                </div>
+
+                <div class="flex justify-between items-start">
+                    <div>
+                        <h3
+                            class="serif text-xl sm:text-2xl text-[#1a1a1a] mb-2 group-hover:opacity-70 transition-opacity">
+                            {{ project.title }}
+                        </h3>
+                        <div class="flex items-center gap-3 text-[10px] text-gray-400 font-mono">
+                            <span>{{ project.completion_date|date:"Y" }} Г.</span>
+                            {% if project.area %}
+                            <span>—</span>
+                            <span>{{ project.area }} M²</span>
+                            {% endif %}
+                        </div>
+                    </div>
+
+                    {% if project.category %}
+                    <span
+                        class="text-[9px] uppercase tracking-widest bg-gray-50 px-3 py-1.5 text-gray-500 group-hover:bg-gray-100 transition-colors">
+                        {{ project.category.name }}
+                    </span>
+                    {% endif %}
+                </div>
+            </a>
+            {% endfor %}
+        </div>
+
+        <!-- Pagination -->
+        {% if is_paginated %}
+        <div class="mt-24 flex justify-center gap-2">
+            {% if page_obj.has_previous %}
+            <a href="?page={{ page_obj.previous_page_number }}"
+                class="w-10 h-10 border border-gray-200 flex items-center justify-center hover:border-black hover:bg-black hover:text-white transition-all">←</a>
+            {% endif %}
+
+            {% for num in page_obj.paginator.page_range %}
+            {% if page_obj.number == num %}
+            <span class="w-10 h-10 bg-black text-white flex items-center justify-center cursor-default">{{ num }}</span>
+            {% else %}
+            <a href="?page={{ num }}"
+                class="w-10 h-10 border border-gray-200 flex items-center justify-center hover:border-black hover:bg-black hover:text-white transition-all">{{
+                num }}</a>
+            {% endif %}
+            {% endfor %}
+
+            {% if page_obj.has_next %}
+            <a href="?page={{ page_obj.next_page_number }}"
+                class="w-10 h-10 border border-gray-200 flex items-center justify-center hover:border-black hover:bg-black hover:text-white transition-all">→</a>
+            {% endif %}
+        </div>
+        {% endif %}
+
+        {% else %}
+        <div class="text-center py-20">
+            <p class="serif text-2xl text-gray-400">В этой категории пока нет проектов.</p>
+            <div class="mt-8">
+                <a href="{% url 'portfolio:project_list' %}"
+                    class="text-xs uppercase tracking-widest border-b border-black pb-1 hover:opacity-60">
+                    Смотреть все проекты
+                </a>
+            </div>
+        </div>
+        {% endif %}
+    </div>
+</section>
+
+<style>
+    @keyframes fadeInUp {
+        from {
+            opacity: 0;
+            transform: translateY(20px);
+        }
+
+        to {
+            opacity: 1;
+            transform: translateY(0);
+        }
+    }
+
+    .fade-in-up {
+        animation: fadeInUp 0.8s ease-out forwards;
+        opacity: 0;
+    }
+</style>
+{% endblock %}
