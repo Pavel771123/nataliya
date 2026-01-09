@@ -112,3 +112,62 @@ class Testimonial(BaseModel):
     
     def __str__(self):
         return f"{self.client_name} ({self.rating}★)"
+
+
+class PriceService(BaseModel):
+    """
+    Model for managing services and pricing.
+    """
+    title = models.CharField(
+        _('Название услуги'),
+        max_length=255,
+        help_text=_('Например: ТЕХНИЧЕСКИЙ ПРОЕКТ')
+    )
+    price = models.CharField(
+        _('Цена'),
+        max_length=100,
+        help_text=_('Например: от 5 долл/мкв')
+    )
+    steps_text = models.TextField(
+        _('Этапы работы'),
+        help_text=_('Введите каждый этап с новой строки. Они будут разделены стрелочками.')
+    )
+    composition_text = models.TextField(
+        _('Состав документации'),
+        help_text=_('Введите каждый пункт с новой строки. Первые 4 будут видны сразу, остальные — при раскрытии.')
+    )
+    pdf_file = models.FileField(
+        _('Файл примера (PDF)'),
+        upload_to='prices/pdfs/',
+        blank=True,
+        null=True,
+        help_text=_('PDF файл для кнопки "Образец проекта"')
+    )
+    is_active = models.BooleanField(
+        _('Активно'),
+        default=True
+    )
+    order = models.PositiveIntegerField(
+        _('Порядок'),
+        default=0
+    )
+
+    class Meta:
+        verbose_name = _('Услуга и цена')
+        verbose_name_plural = _('Услуги и цены')
+        ordering = ['order', 'title']
+
+    def __str__(self):
+        return self.title
+
+    def get_steps_list(self):
+        """Returns steps as a list."""
+        if not self.steps_text:
+            return []
+        return [s.strip() for s in self.steps_text.splitlines() if s.strip()]
+
+    def get_composition_list(self):
+        """Returns composition items as a list."""
+        if not self.composition_text:
+            return []
+        return [s.strip() for s in self.composition_text.splitlines() if s.strip()]

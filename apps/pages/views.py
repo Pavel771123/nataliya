@@ -117,6 +117,10 @@ class PricingView(TemplateView):
         context = super().get_context_data(**kwargs)
         context['page_title'] = _('Стоимость')
         context['meta_description'] = _('Стоимость наших услуг')
+        
+        from .models import PriceService
+        context['services'] = PriceService.objects.filter(is_active=True)
+        
         return context
 
 

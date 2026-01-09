@@ -9,7 +9,18 @@ from django.contrib.auth.models import User, Group
 admin.site.unregister(User)
 admin.site.unregister(Group)
 # from .models import Page, Testimonial
-from .models import Testimonial
+from .models import Testimonial, PriceService
+
+@admin.register(PriceService)
+class PriceServiceAdmin(admin.ModelAdmin):
+    """
+    Admin interface for PriceService model.
+    """
+    list_display = ['title', 'price', 'is_active', 'order']
+    list_editable = ['order', 'is_active']
+    search_fields = ['title', 'price']
+    list_filter = ['is_active']
+
 
 @admin.register(Testimonial)
 class TestimonialAdmin(admin.ModelAdmin):
