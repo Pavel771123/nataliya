@@ -13,5 +13,6 @@ urlpatterns = [
     path('contacts/', views.ContactsView.as_view(), name='contacts'),
     path('sketch/', views.SketchView.as_view(), name='sketch'),
     path('pricing/', views.PricingView.as_view(), name='pricing'),
+    path('samples/', views.ProjectSamplesView.as_view(), name='samples'),
     path('<slug:slug>/', views.PageDetailView.as_view(), name='page_detail'),
 ]

@@ -124,6 +124,26 @@ class PricingView(TemplateView):
         return context
 
 
+class ProjectSamplesView(TemplateView):
+    """
+    Project samples page view.
+    Displays project samples in a grid layout.
+    """
+    
+    template_name = 'pages/samples.html'
+    
+    def get_context_data(self, **kwargs):
+        """Add context data for the project samples page."""
+        context = super().get_context_data(**kwargs)
+        context['page_title'] = _('Образцы проектов')
+        context['meta_description'] = _('Примеры нашей проектной документации')
+        
+        from .models import PriceService
+        context['services'] = PriceService.objects.filter(is_active=True)
+        
+        return context
+
+
 class PageDetailView(DetailView):
     """
     Dynamic page detail view.

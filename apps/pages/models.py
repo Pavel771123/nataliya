@@ -143,6 +143,21 @@ class PriceService(BaseModel):
         null=True,
         help_text=_('PDF файл для кнопки "Образец проекта"')
     )
+    image = models.ImageField(
+        _('Изображение для образца'),
+        upload_to='prices/images/',
+        blank=True,
+        null=True,
+        help_text=_('Превью для страницы "Образцы проектов"')
+    )
+    slug = models.SlugField(
+        _('URL-метка'),
+        max_length=100,
+        unique=True,
+        null=True,
+        blank=True,
+        help_text=_('Уникальная метка для URL (например: technicheskiy-proekt). Если не заполнено, будет создано автоматически.')
+    )
     is_active = models.BooleanField(
         _('Активно'),
         default=True

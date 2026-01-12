@@ -20,6 +20,8 @@ class PriceServiceAdmin(admin.ModelAdmin):
     list_editable = ['order', 'is_active']
     search_fields = ['title', 'price']
     list_filter = ['is_active']
+    prepopulated_fields = {'slug': ('title',)}
+    fields = ['title', 'slug', 'price', 'image', 'pdf_file', 'steps_text', 'composition_text', 'is_active', 'order']
 
 
 @admin.register(Testimonial)

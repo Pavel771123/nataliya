@@ -7,108 +7,116 @@
 {% block header_nav_class %}text-[#1a1a1a]/80{% endblock %}
 
 {% block content %}
-<section class="min-h-screen pt-32 pb-24 px-4 md:px-8">
-    <div class="container mx-auto max-w-5xl">
-        <!-- Header -->
+<section class="min-h-screen pt-32 pb-24 px-4 md:px-8 ">
+    <div class="container mx-auto max-w-6xl">
+        <!-- Main Page Title -->
         <div class="text-center mb-16">
-            <h1 class="serif text-4xl md:text-5xl lg:text-6xl text-[#1a1a1a] mb-4">Стоимость услуг</h1>
-            <div class="h-px w-24 bg-[#1a1a1a]/20 mx-auto"></div>
+            <h1 class="serif text-3xl uppercase tracking-[0.2em] text-[#1a1a1a]">Стоимость услуг</h1>
+            <div class="h-px w-24 bg-[#1a1a1a]/20 mx-auto mt-4"></div>
         </div>
 
-        <div class="space-y-32">
+        <div class="space-y-24">
             {% for service in services %}
             <div class="group" x-data="{ expanded: false }">
-                <!-- Service Title & Price -->
-                <div
-                    class="flex flex-col md:flex-row justify-between items-baseline mb-8 border-b border-gray-100 pb-4">
-                    <h2 class="serif text-2xl md:text-3xl text-[#1a1a1a] uppercase tracking-wide">{{ service.title }}
-                    </h2>
-                    <span class="text-xs uppercase tracking-[0.2em] font-medium text-gray-400">{{service.price}}
 
-                    </span>
-                </div>
-
-                <!-- Process Steps Visual -->
-                <div class="bg-white border border-gray-100 p-8 md:p-12 mb-10 overflow-x-auto">
-                    <div class="flex items-center justify-between min-w-[600px] gap-8">
-                        {% with steps=service.get_steps_list %}
-                        {% for step in steps %}
-                        <div class="flex-1 text-center">
-                            <span
-                                class="block text-[10px] uppercase tracking-[0.15em] font-semibold text-[#1a1a1a] leading-relaxed">
-                                {{ step }}
-                            </span>
-                        </div>
-                        {% if not forloop.last %}
-                        <div class="flex-shrink-0 text-gray-200">
-                            <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5"
-                                    d="M17 8l4 4m0 0l-4 4m4-4H3"></path>
-                            </svg>
-                        </div>
-                        {% endif %}
-                        {% endfor %}
-                        {% endwith %}
+                <!-- Service Card Wrapper -->
+                <div class="border border-gray-100 shadow-sm overflow-hidden">
+                    <!-- Dark Header: Title & Price -->
+                    <div
+                        class="bg-[#595959] text-white px-6 py-5 md:px-10 flex flex-col md:flex-row justify-between items-center gap-4">
+                        <h2 class="serif text-xl md:text-2xl uppercase tracking-wider font-semibold">{{ service.title }}
+                        </h2>
+                        <span class="text-sm md:text-base font-light opacity-90">{{ service.price }}</span>
                     </div>
-                </div>
 
-                <!-- Documentation & Actions -->
-                <div class="grid grid-cols-1 lg:grid-cols-3 gap-12 lg:gap-20">
-                    <!-- Documentation List -->
-                    <div class="lg:col-span-2">
-                        <h3 class="serif text-lg text-[#1a1a1a] mb-6">Состав технической документации:</h3>
-
-                        {% with items=service.get_composition_list %}
-                        <div class="relative" x-data="{ expanded: false }">
-                            <ul class="space-y-3 text-sm text-gray-600 font-light list-none">
-                                {% for item in items %}
-                                <li x-show="expanded || {{ forloop.counter0 }} < 4" x-transition
-                                    class="flex items-start gap-4">
-                                    <span class="text-[10px] text-gray-300 font-medium min-w-[20px] pt-1">
-                                        0{{ forloop.counter }}
-                                    </span>
-                                    <span>{{ item }}</span>
-                                </li>
+                    <!-- White Content Block (Steps & Buttons Side-by-Side) -->
+                    <div class=" p-6 md:p-10 flex flex-col lg:flex-row items-center gap-10">
+                        <!-- Process Flow Section -->
+                        <div class="flex-grow w-full">
+                            <div class="flex flex-wrap items-center justify-start gap-y-6">
+                                {% with steps=service.get_steps_list %}
+                                {% for step in steps %}
+                                <div class="flex items-center">
+                                    <div class="text-center max-w-[150px]">
+                                        <span
+                                            class="block text-[10px] uppercase tracking-wider font-bold text-[#1a1a1a] leading-[1.3]">
+                                            {{ step }}
+                                        </span>
+                                    </div>
+                                    {% if not forloop.last %}
+                                    <div class="px-4 text-gray-300">
+                                        <!-- Hollow/Outline Arrow per screenshot -->
+                                        <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5"
+                                                d="M13 7l5 5m0 0l-5 5m5-5H6"></path>
+                                        </svg>
+                                    </div>
+                                    {% endif %}
+                                </div>
                                 {% endfor %}
-                            </ul>
-
-                            {% if items|length > 4 %}
-                            <button @click="expanded = !expanded"
-                                class="mt-8 text-[10px] uppercase tracking-[0.2em] font-bold text-black border-b border-black pb-1"
-                                x-text="expanded ? '- Свернуть' : '+ Развернуть список'"></button>
-                            {% endif %}
+                                {% endwith %}
+                            </div>
                         </div>
-                        {% endwith %}
-                    </div>
 
-                    <!-- Actions -->
-                    <div class="flex flex-col gap-4">
-                        <a href="/contacts/"
-                            class="bg-[#1a1a1a] text-white text-[11px] uppercase tracking-[0.2em] px-8 py-5 text-center hover:bg-gray-800 transition-colors font-semibold">
-                            Оставить заявку
-                        </a>
+                        <!-- Side Buttons Section -->
+                        <div class="w-full lg:w-72 flex flex-col gap-4">
+                            <!-- Button 1: Dark Grey -->
+                            <a href="/contacts/"
+                                class="bg-[#4d4d4d] text-white text-[11px] uppercase tracking-[0.15em] px-6 py-5 text-center hover:bg-[#333333] transition-colors font-bold shadow-sm">
+                                Оставить заявку
+                            </a>
 
-                        {% if service.pdf_file %}
-                        <div class="space-y-2">
+                            <!-- Button 2: Medium Grey -->
+                            {% if service.pdf_file %}
                             <a href="{{ service.pdf_file.url }}" target="_blank"
-                                class="block border border-black/10 text-black text-[11px] uppercase tracking-[0.2em] px-8 py-5 text-center hover:bg-black hover:text-white transition-all font-semibold">
+                                class="bg-[#808080] text-white text-[11px] uppercase tracking-[0.15em] px-6 py-5 text-center hover:bg-[#666666] transition-colors font-bold shadow-sm">
                                 Образец проекта
                             </a>
-                            <p class="text-[9px] text-gray-400 text-center uppercase tracking-widest italic">PDF файл
-                                доступен для скачивания</p>
+                            {% else %}
+                            <button disabled
+                                class="bg-gray-100 text-gray-400 text-[11px] uppercase tracking-[0.15em] px-6 py-5 text-center cursor-not-allowed font-bold">
+                                Образец проекта
+                            </button>
+                            {% endif %}
                         </div>
-                        {% else %}
-                        <button disabled
-                            class="opacity-30 border border-black/10 text-black text-[11px] uppercase tracking-[0.2em] px-8 py-5 text-center cursor-not-allowed font-semibold">
-                            Образец проекта
+                    </div>
+                </div>
+
+                <!-- Documentation Section (Below the white box) -->
+                <div class="mt-8 px-2" x-data="{ localExpanded: false }">
+                    <h3
+                        class="text-xs uppercase tracking-widest text-[#595959] mb-4 font-semibold border-l-2 border-[#595959] pl-3">
+                        Состав технической документации дизайн-проекта:
+                    </h3>
+
+                    {% with items=service.get_composition_list %}
+                    <div class="relative max-w-5xl">
+                        <ul
+                            class="grid grid-cols-1 md:grid-cols-2 gap-x-12 gap-y-2.5 text-[11px] text-gray-600 font-light list-decimal list-inside">
+                            {% for item in items %}
+                            <li x-show="localExpanded || {{ forloop.counter }} <= 4"
+                                x-transition:enter="transition ease-out duration-300"
+                                x-transition:enter-start="opacity-0" x-transition:enter-end="opacity-100"
+                                class="leading-relaxed" {% if forloop.counter > 4 %}style="display: none;"{% endif %}>
+                                {{ item }}
+                            </li>
+                            {% endfor %}
+                        </ul>
+
+                        {% if items|length > 4 %}
+                        <button @click="localExpanded = !localExpanded"
+                            class="mt-6 text-[10px] uppercase tracking-[0.2em] font-bold text-[#1a1a1a] border-b border-[#1a1a1a] pb-1 hover:opacity-100 opacity-60 transition-all"
+                            x-text="localExpanded ? '- СВЕРНУТЬ' : '+ РАЗВЕРНУТЬ СПИСОК'">
+                            + РАЗВЕРНУТЬ СПИСОК
                         </button>
                         {% endif %}
                     </div>
+                    {% endwith %}
                 </div>
             </div>
             {% empty %}
-            <div class="text-center py-20 text-gray-400">
-                <p class="serif text-2xl italic">Раздел находится в наполнении...</p>
+            <div class="text-center py-24 text-gray-400">
+                <p class="serif text-2xl italic">Раздел будет наполнен в ближайшее время</p>
                 <a href="/"
                     class="inline-block mt-12 text-[10px] uppercase tracking-[0.2em] font-bold border-b border-black pb-1 hover:opacity-100 opacity-60">Вернуться
                     на главную</a>
