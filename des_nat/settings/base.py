@@ -29,11 +29,13 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+    'django.contrib.sitemaps',
     
     # Local apps
     'apps.core',
     'apps.pages',
     'apps.portfolio',
+    'apps.samples',
     'apps.leads.apps.LeadsConfig',
     'debug_toolbar',
 ]

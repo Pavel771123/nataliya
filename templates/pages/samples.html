@@ -22,20 +22,29 @@
             <div class="group flex flex-col">
                 <!-- Title -->
                 <h2 class="serif text-xl md:text-2xl uppercase tracking-widest  mb-6 text-center">
-                    {{ service.title }}
+                    <a href="{% url 'portfolio:project_detail' service.slug %}"
+                        class="hover:opacity-70 transition-opacity">
+                        {{ service.title }}
+                    </a>
                 </h2>
 
                 <!-- Image Container -->
-                <div
-                    class="aspect-[3/4] overflow-hidden bg-gray-800 mb-6 shadow-2xl transition-transform duration-500 group-hover:scale-[1.02]">
-                    {% if service.image %}
-                    <img src="{{ service.image.url }}" alt="{{ service.title }}" class="w-full h-full object-cover">
-                    {% else %}
-                    <div class="w-full h-full flex items-center justify-center  uppercase tracking-widest text-[10px]">
-                        Изображение отсутствует
+                <a href="{% url 'portfolio:project_detail' service.slug %}" class="block">
+
+                    <div class="aspect-[3/4] overflow-hidden bg-gray-800 mb-6 shadow-2xl
+                            transition-transform duration-500 group-hover:scale-[1.02]">
+
+                        {% if service.image %}
+                        <img src="{{ service.image.url }}" alt="{{ service.title }}" class="w-full h-full object-cover">
+                        {% else %}
+                        <div
+                            class="w-full h-full flex items-center justify-center uppercase tracking-widest text-[10px]">
+                            Изображение отсутствует
+                        </div>
+                        {% endif %}
+
                     </div>
-                    {% endif %}
-                </div>
+                </a>
 
                 <!-- Footer Info -->
                 <div class="mt-auto space-y-4">
@@ -58,14 +67,7 @@
                     </div>
                 </div>
             </div>
-            {% empty %}
-            <div class="col-span-full text-center py-20 ">
-                <p class="serif text-2xl italic">Раздел находится в наполнении...</p>
-                <a href="/"
-                    class="inline-block mt-12 text-[10px] uppercase tracking-[0.2em] font-bold border-b border-white/40 pb-1 hover:opacity-100 opacity-60">
-                    Вернуться на главную
-                </a>
-            </div>
+
             {% endfor %}
         </div>
     </div>

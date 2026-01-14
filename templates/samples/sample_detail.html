@@ -3,7 +3,7 @@
 
 {% block title %}{{ project.title }} | Nataliya Kulchinskaya{% endblock %}
 
-{% block meta_description %}{{ project.meta_description|default:project.short_description }}{% endblock %}
+{% block meta_description %}{{ project.meta_description|default:project.description|truncatechars:160 }}{% endblock %}
 {% block meta_keywords %}{{ project.meta_keywords }}{% endblock %}
 
 {% block content %}
@@ -17,10 +17,10 @@
             <!-- Left Sidebar (Sticky) -->
             <div class="w-full lg:w-1/4 lg:h-[calc(100vh-8rem)] lg:sticky lg:top-32 flex flex-col pt-4">
                 <!-- Back Link -->
-                <a href="{% url 'portfolio:project_list' %}"
+                <a href="{% url 'samples:sample_list' %}"
                     class="inline-flex items-center text-[9px] uppercase tracking-widest text-[#1a1a1a] opacity-50 hover:opacity-100 transition-opacity mb-10 group">
                     <span class="mr-2 group-hover:-translate-x-1 transition-transform">←</span>
-                    Вернуться к списку
+                    Вернуться к образцам
                 </a>
 
                 <!-- Title -->
@@ -30,10 +30,12 @@
 
                 <!-- Metadata -->
                 <div class="grid grid-cols-1 gap-6 mb-8 text-[10px] uppercase tracking-widest text-gray-500 font-mono">
+                    {% if project.year %}
                     <div>
                         <span class="block text-gray-300 mb-1">Год реализации</span>
                         <span class="text-[#1a1a1a]">{{ project.year }}</span>
                     </div>
+                    {% endif %}
                     {% if project.area %}
                     <div>
                         <span class="block text-gray-300 mb-1">Площадь объекта</span>
@@ -53,12 +55,26 @@
                     {{ project.description|linebreaksbr }}
                 </div>
 
+                <!-- Price Info -->
+                {% if project.price_info %}
+                <div class="mt-8 pt-4 border-t border-gray-100">
+                    <p class="text-[10px] uppercase tracking-widest text-[#1a1a1a] font-bold mb-1">Стоимость</p>
+                    <p class="text-sm text-gray-600">{{ project.price_info }}</p>
+                </div>
+                {% endif %}
+
                 <!-- CTA Button -->
-                <div class="mt-12 lg:mt-8">
+                <div class="mt-12 lg:mt-8 space-y-3">
                     <a href="{% url 'pages:contacts' %}"
                         class="inline-block border border-black px-8 py-4 text-[10px] uppercase tracking-[0.25em] text-[#1a1a1a] hover:bg-black hover:text-white transition-all duration-300 w-full text-center">
                         Хочу такой же дизайн
                     </a>
+                    {% if project.pdf_file %}
+                    <a href="{{ project.pdf_file.url }}" target="_blank"
+                        class="inline-block bg-[#1a1a1a] text-white px-8 py-4 text-[10px] uppercase tracking-[0.25em] hover:bg-black/90 transition-all duration-300 w-full text-center">
+                        Скачать PDF проект
+                    </a>
+                    {% endif %}
                 </div>
             </div>
 
@@ -75,14 +91,9 @@
                         </div>
                         {% endfor %}
                         {% else %}
-                        <!-- Fallback if no images -->
+                        <!-- Fallback -->
                         <div class="swiper-slide w-full h-full">
-                            {% if project.main_image %}
-                            <img src="{{ project.main_image.url }}" alt="{{ project.title }}"
-                                class="w-full h-full object-cover">
-                            {% else %}
                             <div class="w-full h-full flex items-center justify-center text-gray-300">No Images</div>
-                            {% endif %}
                         </div>
                         {% endif %}
                     </div>
@@ -129,7 +140,6 @@
         font-size: 1.2rem !important;
     }
 
-    /* Ensure content fits */
     .swiper {
         width: 100%;
         height: 100%;
