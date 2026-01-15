@@ -64,7 +64,7 @@
                             {{ project.title }}
                         </h3>
                         <div class="flex items-center gap-3 text-[10px] text-gray-400 font-mono">
-                            <span>{{ project.completion_date|date:"Y" }} Г.</span>
+                            <span>{{ project.year }} Г.</span>
                             {% if project.area %}
                             <span>—</span>
                             <span>{{ project.area }} M²</span>
@@ -96,8 +96,7 @@
             <span class="w-10 h-10 bg-black text-white flex items-center justify-center cursor-default">{{ num }}</span>
             {% else %}
             <a href="?page={{ num }}"
-                class="w-10 h-10 border border-gray-200 flex items-center justify-center hover:border-black hover:bg-black hover:text-white transition-all">{{
-                num }}</a>
+                class="w-10 h-10 border border-gray-200 flex items-center justify-center hover:border-black hover:bg-black hover:text-white transition-all">{{num}}</a>
             {% endif %}
             {% endfor %}
 

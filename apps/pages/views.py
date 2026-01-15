@@ -31,18 +31,25 @@ class HomeView(TemplateView):
             is_deleted=False
         ).select_related('category').prefetch_related('images')[:2]
         
-        # Categories with their random/latest 2 projects
-        categories = ProjectCategory.objects.filter(is_deleted=False).exclude(slug='')
-        categories_with_projects = []
+        # Categories with their first 2 projects (optimized with Prefetch)
+        from django.db.models import Prefetch
         
+        projects_query = Project.objects.filter(
+            is_published=True, 
+            is_deleted=False
+        ).prefetch_related('images')
+        
+        categories = ProjectCategory.objects.filter(
+            is_deleted=False
+        ).exclude(slug='').prefetch_related(
+            Prefetch('projects', queryset=projects_query, to_attr='home_projects_list')
+        )
+        
+        categories_with_projects = []
         for category in categories:
-            projects = category.projects.filter(
-                is_published=True, 
-                is_deleted=False
-            ).prefetch_related('images')[:2]
-            
-            if projects:
-                category.home_projects = projects
+            # We take first 2 from the prefetched list
+            category.home_projects = category.home_projects_list[:2]
+            if category.home_projects:
                 categories_with_projects.append(category)
                 
         context['portfolio_categories'] = categories_with_projects

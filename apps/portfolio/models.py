@@ -142,13 +142,24 @@ class Project(BaseModel):
     
     @property
     def main_image(self):
-        """Get the main image for the project."""
-        cover = self.images.filter(is_cover=True).first()
+        """
+        Get the main image for the project.
+        Optimized to use prefetched 'images' if available.
+        """
+        if hasattr(self, '_prefetched_objects_cache') and 'images' in self._prefetched_objects_cache:
+            images = self._prefetched_objects_cache['images']
+        else:
+            images = self.images.all()
+            
+        # Try to find cover image first
+        cover = next((img for img in images if img.is_cover), None)
         if cover:
             return cover.image
-        first_image = self.images.first()
-        if first_image:
-            return first_image.image
+            
+        # Fallback to the first image in the set
+        first = next(iter(images), None)
+        if first:
+            return first.image
         return None
 
     def get_absolute_url(self):

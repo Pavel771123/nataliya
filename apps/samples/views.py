@@ -8,9 +8,10 @@ class SampleListView(ListView):
     model = Sample
     template_name = 'samples/sample_list.html'
     context_object_name = 'samples'
+    paginate_by = 6
 
     def get_queryset(self):
-        return Sample.objects.filter(is_published=True)
+        return Sample.objects.filter(is_published=True).prefetch_related('images')
 
 class SampleDetailView(DetailView):
     """
