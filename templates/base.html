@@ -1,15 +1,19 @@
+{% load static %}
+
 <!DOCTYPE html>
 <html lang="ru">
 
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="icon" href="{% static 'img/favicon.png' %}" type="image/x-icon">
     <title>{% block title %}Nataliya Kulchinskaya | Interior Designer{% endblock %}</title>
     <meta name="description"
         content="{% block meta_description %}{{ meta_description|default:'Дизайн интерьера от Наталии Кульчинской' }}{% endblock %}">
     <meta name="keywords"
         content="{% block meta_keywords %}{{ meta_keywords|default:'дизайн интерьера, дизайн-проект, интерьер' }}{% endblock %}">
     <link rel="canonical" href="{% block canonical_url %}{{ request.build_absolute_uri }}{% endblock %}">
+
 
     <!-- Tailwind CSS -->
     <script src="https://cdn.tailwindcss.com"></script>

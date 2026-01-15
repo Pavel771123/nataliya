@@ -23,7 +23,7 @@ sitemaps = {
 }
 
 urlpatterns = [
-    path('admin/', admin.site.urls),
+    path('nk-manager/', admin.site.urls),
     path('portfolio/', include('apps.portfolio.urls')),
     path('samples/', include('apps.samples.urls')),
     path('', include('apps.pages.urls')),

@@ -6,6 +6,7 @@ from .models import Lead
 from .forms import LeadForm
 
 from .telegram import TelegramService
+from django.utils.html import escape
 from django.utils import timezone
 
 class LeadCreateView(CreateView):
@@ -58,13 +59,13 @@ class LeadCreateView(CreateView):
             if not telegram.is_configured():
                 return
 
-            # Format fields
-            name = lead.name or "—"
-            phone = lead.phone or "—"
-            description = lead.description or "—"
+            # Format fields (escaping for HTML safety)
+            name = escape(lead.name or "—")
+            phone = escape(lead.phone or "—")
+            description = escape(lead.description or "—")
             file_status = "прикреплён" if lead.file else "отсутствует"
             datetime = timezone.localtime(lead.created_at).strftime("%d.%m.%Y %H:%M")
-            page_url = self.request.META.get('HTTP_REFERER', "—")
+            page_url = escape(self.request.META.get('HTTP_REFERER', "—"))
 
             message = (
                 f"📩 <b>Новая заявка с сайта</b>\n\n"
