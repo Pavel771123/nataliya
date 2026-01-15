@@ -163,3 +163,7 @@ SESSION_COOKIE_SECURE = not DEBUG
 
 # X-Frame-Options
 X_FRAME_OPTIONS = 'DENY'
+
+# Telegram Settings
+TELEGRAM_BOT_TOKEN = config('TELEGRAM_BOT_TOKEN', default='')
+TELEGRAM_CHAT_ID = config('TELEGRAM_CHAT_ID', default='')
