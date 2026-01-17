@@ -4,8 +4,19 @@ Contains models for managing portfolio projects.
 """
 
 from django.db import models
+from django.db.models.signals import post_save, post_delete
+from django.dispatch import receiver
+from django.core.cache import cache
 from django.utils.translation import gettext_lazy as _
 from apps.core.models import BaseModel
+
+
+@receiver([post_save, post_delete], sender='portfolio.Project')
+@receiver([post_save, post_delete], sender='portfolio.ProjectCategory')
+@receiver([post_save, post_delete], sender='portfolio.ProjectImage')
+def clear_portfolio_cache(sender, **kwargs):
+    """Clear portfolio cache when any related model changes."""
+    cache.clear()
 
 
 class ProjectCategory(BaseModel):

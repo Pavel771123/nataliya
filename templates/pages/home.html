@@ -1,5 +1,6 @@
 {% extends 'base.html' %}
 {% load static %}
+{% load cache %}
 
 {% block header_logo_class %}text-white{% endblock %}
 {% block header_nav_class %}text-white/80{% endblock %}
@@ -189,6 +190,7 @@
 </section>
 
 <!-- Portfolio Section (Screen 4) -->
+{% cache 900 homepage_portfolio %}
 <section class="py-20  border-t border-gray-100" x-data="{ activeTab: 'all' }">
     <div class="container mx-auto px-4 md:px-8">
         <!-- Header & Filters -->
@@ -299,4 +301,5 @@
 
     </div>
 </section>
+{% endcache %}
 {% endblock %}

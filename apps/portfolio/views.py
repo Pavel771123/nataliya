@@ -2,11 +2,14 @@
 Portfolio views module.
 """
 
+from django.utils.decorators import method_decorator
+from django.views.decorators.cache import cache_page
 from django.views.generic import ListView, DetailView
 from django.utils.translation import gettext_lazy as _
 from .models import Project, ProjectCategory
 
 
+@method_decorator(cache_page(60 * 15), name='dispatch')
 class ProjectListView(ListView):
     """
     List view for portfolio projects.
@@ -50,6 +53,7 @@ class ProjectListView(ListView):
         return context
 
 
+@method_decorator(cache_page(60 * 15), name='dispatch')
 class ProjectDetailView(DetailView):
     """
     Detail view for portfolio project.
