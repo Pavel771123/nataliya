@@ -1,5 +1,6 @@
 import requests
 import logging
+import os
 from django.conf import settings
 from django.utils import timezone
 
@@ -30,16 +31,29 @@ class TelegramService:
             'parse_mode': parse_mode
         }
         
+        # Adding headers to look more like a browser request
+        headers = {
+            'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/91.0.4472.124 Safari/537.36',
+            'Accept': '*/*',
+        }
+        
         try:
             start_time = timezone.now()
-            logger.info(f"Sending Telegram message to chat {self.chat_id}...")
-            response = requests.post(url, data=payload, timeout=90)
+            logger.info(f"Sending Telegram message to chat {self.chat_id} (Timeout: 10s connect, 90s read)...")
+            
+            # Split timeout: (connect_timeout, read_timeout)
+            # Use shorter connect timeout to skip bad IP addresses faster
+            response = requests.post(url, data=payload, headers=headers, timeout=(10, 90))
+            
             duration = (timezone.now() - start_time).total_seconds()
             response.raise_for_status()
             logger.info(f"Telegram message sent successfully in {duration:.1f}s.")
             return True
         except requests.exceptions.HTTPError as e:
             logger.error(f"Telegram API HTTP error: {e.response.status_code} - {e.response.text}")
+            return False
+        except requests.exceptions.Timeout:
+            logger.error("Telegram request timed out after 90 seconds.")
             return False
         except requests.exceptions.RequestException as e:
             logger.error(f"Network error while sending Telegram message: {str(e)}")
@@ -50,7 +64,17 @@ class TelegramService:
             logger.warning("Telegram Bot is not configured. Missing TOKEN or CHAT_ID.")
             return False
             
+        if not os.path.exists(file_path):
+            logger.error(f"File not found for Telegram attachment: {file_path}")
+            return False
+            
+        file_size = os.path.getsize(file_path)
+        logger.info(f"Attempting to send document: {file_path} (Size: {file_size} bytes)")
+            
         url = self.base_url + "sendDocument"
+        headers = {
+            'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/91.0.4472.124 Safari/537.36',
+        }
         
         try:
             with open(file_path, 'rb') as doc:
@@ -61,14 +85,18 @@ class TelegramService:
                     payload['parse_mode'] = parse_mode
                 
                 start_time = timezone.now()
-                logger.info(f"Sending Telegram document {file_path} to chat {self.chat_id}...")
-                response = requests.post(url, data=payload, files=files, timeout=120)
+                logger.info(f"Sending Telegram document {file_path} (Timeout: 15s connect, 120s read)...")
+                response = requests.post(url, data=payload, files=files, headers=headers, timeout=(15, 120))
+                
                 duration = (timezone.now() - start_time).total_seconds()
                 response.raise_for_status()
                 logger.info(f"Telegram document sent successfully in {duration:.1f}s.")
                 return True
         except requests.exceptions.HTTPError as e:
             logger.error(f"Telegram API HTTP error (document): {e.response.status_code} - {e.response.text}")
+            return False
+        except requests.exceptions.Timeout:
+            logger.error("Telegram document request timed out.")
             return False
         except (requests.exceptions.RequestException, IOError) as e:
             logger.error(f"Error sending Telegram document: {str(e)}")
