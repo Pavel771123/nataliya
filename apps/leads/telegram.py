@@ -30,11 +30,16 @@ class TelegramService:
         }
         
         try:
+            logger.info(f"Sending Telegram message to chat {self.chat_id}...")
             response = requests.post(url, data=payload, timeout=10)
             response.raise_for_status()
+            logger.info("Telegram message sent successfully.")
             return True
+        except requests.exceptions.HTTPError as e:
+            logger.error(f"Telegram API HTTP error: {e.response.status_code} - {e.response.text}")
+            return False
         except requests.exceptions.RequestException as e:
-            logger.error(f"Error sending Telegram message: {e}")
+            logger.error(f"Network error while sending Telegram message: {str(e)}")
             return False
 
     def send_document(self, file_path, caption=None, parse_mode='HTML'):
@@ -52,9 +57,14 @@ class TelegramService:
                     payload['caption'] = caption
                     payload['parse_mode'] = parse_mode
                 
+                logger.info(f"Sending Telegram document {file_path} to chat {self.chat_id}...")
                 response = requests.post(url, data=payload, files=files, timeout=20)
                 response.raise_for_status()
+                logger.info("Telegram document sent successfully.")
                 return True
+        except requests.exceptions.HTTPError as e:
+            logger.error(f"Telegram API HTTP error (document): {e.response.status_code} - {e.response.text}")
+            return False
         except (requests.exceptions.RequestException, IOError) as e:
-            logger.error(f"Error sending Telegram document: {e}")
+            logger.error(f"Error sending Telegram document: {str(e)}")
             return False
