@@ -18,7 +18,7 @@ services:
     restart: unless-stopped
     command: gunicorn des_nat.wsgi:application --bind 0.0.0.0:8000 --workers 3
     volumes:
-      - ./des_nat:/app/des_nat  # твой проект
+      - .:/app
       - static_volume:/app/staticfiles
       - media_volume:/app/media
     env_file:
