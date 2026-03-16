@@ -5,7 +5,7 @@
 {% block header_nav_class %}text-white/80{% endblock %}
 
 {% block content %}
-<section class="min-h-screen bg-[#1a1a1a] text-white flex items-stretch overflow-hidden pt-20 lg:pt-0">
+<section class="min-h-screen bg-[#1a1a1a] text-white flex items-stretch pt-20 lg:pt-0">
     <!-- Left: Image Section -->
     <div class="hidden lg:block w-5/12 relative">
         <div class="absolute inset-0 bg-gray-800">
@@ -91,7 +91,7 @@
 
                     <div id="form-result">
                         <form hx-post="{% url 'leads:submit' %}" hx-target="#form-result" hx-swap="innerHTML"
-                            enctype="multipart/form-data" class="space-y-8">
+                            hx-encoding="multipart/form-data" enctype="multipart/form-data" class="space-y-8">
                             {% csrf_token %}
                             <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
                                 <div class="relative group">
