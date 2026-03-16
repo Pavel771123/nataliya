@@ -8,24 +8,30 @@ from .forms import LeadForm
 from .telegram import TelegramService
 from django.utils.html import escape
 from django.utils import timezone
+import threading
 
 class LeadCreateView(CreateView):
     model = Lead
     form_class = LeadForm
-    template_name = 'leads/form.html'  # Fallback
+    template_name = 'pages/contacts.html'
     
     def form_valid(self, form):
         self.object = form.save()
         
-        # Send notifications
-        self.send_email_notification(self.object)
-        self.send_telegram_notification(self.object)
+        # Send notifications in background to prevent 10s wait
+        threading.Thread(target=self.send_email_notification, args=(self.object,)).start()
+        threading.Thread(target=self.send_telegram_notification, args=(self.object,)).start()
         
         # Return success partial
         return render(self.request, 'leads/partials/success.html')
     
     def form_invalid(self, form):
-        return super().form_invalid(form)
+        # We need to return the form with errors.
+        # Since this is HTMX, returning the full page isn't what we want inside the swap target.
+        # For simplicity, if it's HTMX, we can just render the form part again.
+        # However, we don't have a partial for the form itself. 
+        # For now, return a simple error message to the hx-target.
+        return render(self.request, 'leads/partials/error.html', {'form': form}, status=400)
 
     def send_email_notification(self, lead):
         try:
