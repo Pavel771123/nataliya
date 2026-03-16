@@ -1,14 +1,16 @@
+import logging
+import threading
 from django.views.generic import CreateView
 from django.shortcuts import render
 from django.core.mail import EmailMessage
 from django.conf import settings
-from .models import Lead
-from .forms import LeadForm
-
-from .telegram import TelegramService
 from django.utils.html import escape
 from django.utils import timezone
-import threading
+from .models import Lead
+from .forms import LeadForm
+from .telegram import TelegramService
+
+logger = logging.getLogger(__name__)
 
 class LeadCreateView(CreateView):
     model = Lead
@@ -18,20 +20,26 @@ class LeadCreateView(CreateView):
     def form_valid(self, form):
         self.object = form.save()
         
+        # Capture critical request data BEFORE starting the thread
+        # accessing self.request in a thread after response is sent can crash
+        referer = self.request.META.get('HTTP_REFERER', "—")
+        
         # Send notifications in background to prevent 10s wait
-        threading.Thread(target=self.send_email_notification, args=(self.object,)).start()
-        threading.Thread(target=self.send_telegram_notification, args=(self.object,)).start()
+        threading.Thread(
+            target=self.send_notifications_task, 
+            args=(self.object, referer)
+        ).start()
         
         # Return success partial
         return render(self.request, 'leads/partials/success.html')
     
     def form_invalid(self, form):
-        # We need to return the form with errors.
-        # Since this is HTMX, returning the full page isn't what we want inside the swap target.
-        # For simplicity, if it's HTMX, we can just render the form part again.
-        # However, we don't have a partial for the form itself. 
-        # For now, return a simple error message to the hx-target.
         return render(self.request, 'leads/partials/error.html', {'form': form}, status=400)
+
+    def send_notifications_task(self, lead, referer):
+        """Wrapper task to run in a thread"""
+        self.send_email_notification(lead)
+        self.send_telegram_notification(lead, referer)
 
     def send_email_notification(self, lead):
         try:
@@ -43,35 +51,37 @@ class LeadCreateView(CreateView):
             """
             
             recipient_list = [settings.DEFAULT_FROM_EMAIL] if hasattr(settings, 'DEFAULT_FROM_EMAIL') else ['info@example.com']
+            from_email = getattr(settings, 'DEFAULT_FROM_EMAIL', 'noreply@example.com')
             
             email = EmailMessage(
                 subject,
                 body,
-                settings.DEFAULT_FROM_EMAIL if hasattr(settings, 'DEFAULT_FROM_EMAIL') else 'noreply@example.com',
+                from_email,
                 recipient_list,
             )
             
             if lead.file:
                 email.attach_file(lead.file.path)
                 
-            email.send(fail_silently=True)
-        except Exception:
-            # Silence email errors to not break lead submission
-            pass
+            email.send(fail_silently=False)
+            logger.info(f"Email notification sent for lead {lead.id}")
+        except Exception as e:
+            logger.error(f"Failed to send email for lead {lead.id}: {str(e)}")
 
-    def send_telegram_notification(self, lead):
+    def send_telegram_notification(self, lead, referer):
         try:
             telegram = TelegramService()
             if not telegram.is_configured():
+                logger.warning("Telegram not configured (missing tokens)")
                 return
 
-            # Format fields (escaping for HTML safety)
+            # Format fields
             name = escape(lead.name or "—")
             phone = escape(lead.phone or "—")
             description = escape(lead.description or "—")
             file_status = "прикреплён" if lead.file else "отсутствует"
-            datetime = timezone.localtime(lead.created_at).strftime("%d.%m.%Y %H:%M")
-            page_url = escape(self.request.META.get('HTTP_REFERER', "—"))
+            dt_str = timezone.localtime(lead.created_at).strftime("%d.%m.%Y %H:%M")
+            page_url = escape(referer)
 
             message = (
                 f"📩 <b>Новая заявка с сайта</b>\n\n"
@@ -79,17 +89,20 @@ class LeadCreateView(CreateView):
                 f"📞 <b>Телефон:</b> {phone}\n"
                 f"📝 <b>Описание:</b>\n{description}\n\n"
                 f"📎 <b>Файл:</b> {file_status}\n"
-                f"🕒 <b>Дата:</b> {datetime}\n"
+                f"🕒 <b>Дата:</b> {dt_str}\n"
                 f"🌐 <b>Страница:</b> {page_url}"
             )
 
             # Send message
-            telegram.send_message(message)
+            success = telegram.send_message(message)
+            if success:
+                logger.info(f"Telegram message sent for lead {lead.id}")
+            else:
+                logger.error(f"Telegram message failed for lead {lead.id}")
 
             # Send document if exists
-            if lead.file:
+            if lead.file and success:
                 caption = f"📎 Файл к заявке от {name} ({phone})"
                 telegram.send_document(lead.file.path, caption=caption)
-        except Exception:
-            # Silence telegram errors to not break lead submission
-            pass
+        except Exception as e:
+            logger.exception(f"Critical error in Telegram notification thread for lead {lead.id}: {str(e)}")
