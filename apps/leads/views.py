@@ -38,35 +38,7 @@ class LeadCreateView(CreateView):
 
     def send_notifications_task(self, lead, referer):
         """Wrapper task to run in a thread"""
-        self.send_email_notification(lead)
         self.send_telegram_notification(lead, referer)
-
-    def send_email_notification(self, lead):
-        try:
-            subject = f"Новая заявка с сайта: {lead.name}"
-            body = f"""
-            Имя: {lead.name}
-            Телефон: {lead.phone}
-            Описание: {lead.description or 'Не указано'}
-            """
-            
-            recipient_list = [settings.DEFAULT_FROM_EMAIL] if hasattr(settings, 'DEFAULT_FROM_EMAIL') else ['info@example.com']
-            from_email = getattr(settings, 'DEFAULT_FROM_EMAIL', 'noreply@example.com')
-            
-            email = EmailMessage(
-                subject,
-                body,
-                from_email,
-                recipient_list,
-            )
-            
-            if lead.file:
-                email.attach_file(lead.file.path)
-                
-            email.send(fail_silently=False)
-            logger.info(f"Email notification sent for lead {lead.id}")
-        except Exception as e:
-            logger.error(f"Failed to send email for lead {lead.id}: {str(e)}")
 
     def send_telegram_notification(self, lead, referer):
         try:
