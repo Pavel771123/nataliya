@@ -47,34 +47,37 @@ class LeadCreateView(CreateView):
                 logger.warning("Telegram not configured (missing tokens)")
                 return
 
-            # Format fields
+            # Construct the full message, escaping user-provided data
             name = escape(lead.name or "—")
             phone = escape(lead.phone or "—")
             description = escape(lead.description or "—")
-            file_status = "прикреплён" if lead.file else "отсутствует"
+            page_url = escape(referer or "—")
             dt_str = timezone.localtime(lead.created_at).strftime("%d.%m.%Y %H:%M")
-            page_url = escape(referer)
 
             message = (
                 f"📩 <b>Новая заявка с сайта</b>\n\n"
                 f"👤 <b>Имя:</b> {name}\n"
                 f"📞 <b>Телефон:</b> {phone}\n"
                 f"📝 <b>Описание:</b>\n{description}\n\n"
-                f"📎 <b>Файл:</b> {file_status}\n"
                 f"🕒 <b>Дата:</b> {dt_str}\n"
                 f"🌐 <b>Страница:</b> {page_url}"
             )
 
-            # Send message
-            success = telegram.send_message(message)
-            if success:
-                logger.info(f"Telegram message sent for lead {lead.id}")
+            # If there is a file, send it with the message as a caption (single request)
+            # This is much faster and more reliable on throttled networks
+            if lead.file:
+                success = telegram.send_document(
+                    lead.file.path, 
+                    caption=message,
+                    parse_mode='HTML'
+                )
             else:
-                logger.error(f"Telegram message failed for lead {lead.id}")
+                success = telegram.send_message(message, parse_mode='HTML')
 
-            # Send document if exists
-            if lead.file and success:
-                caption = f"📎 Файл к заявке от {name} ({phone})"
-                telegram.send_document(lead.file.path, caption=caption)
+            if success:
+                logger.info(f"Telegram notification sent successfully for lead {lead.id}")
+            else:
+                logger.error(f"Telegram notification failed for lead {lead.id}")
+
         except Exception as e:
             logger.exception(f"Critical error in Telegram notification thread for lead {lead.id}: {str(e)}")
