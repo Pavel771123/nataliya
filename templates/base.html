@@ -98,8 +98,8 @@
 
                 <!-- Mobile Menu Overlay -->
                 <div x-show="open" x-transition.opacity
-                    class="fixed inset-0 bg-[#f0e9dd]/95 backdrop-blur-md z-40 flex flex-col items-center justify-center space-y-8 text-sm uppercase tracking-widest text-[#1a1a1a]"
-                    @click.outside="open = false" style="display: none;">
+                    class="fixed inset-0 z-40 flex flex-col items-center justify-center space-y-8 text-sm uppercase tracking-widest text-[#1a1a1a]"
+                    @click.outside="open = false" style="display: none; background-color: rgba(240, 233, 221, 0.95); backdrop-filter: blur(8px); -webkit-backdrop-filter: blur(8px);">
                     <a href="{% url 'samples:sample_list' %}" class="hover:text-gray-500">Образцы проектов</a>
                     <a href="{% url 'pages:pricing' %}" class="hover:text-gray-500">Стоимость</a>
                     <a href="{% url 'portfolio:project_list' %}" class="hover:text-gray-500">Портфолио</a>
