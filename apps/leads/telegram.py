@@ -1,8 +1,18 @@
 import requests
 import logging
 import os
+import socket
 from django.conf import settings
 from django.utils import timezone
+
+# Force IPv4 for requests to avoid long delays on IPv6 fallback
+import requests.packages.urllib3.util.connection as urllib3_connection
+
+def allowed_gai_family():
+    """Force IPv4 for DNS resolution"""
+    return socket.AF_INET
+
+urllib3_connection.allowed_gai_family = allowed_gai_family
 
 logger = logging.getLogger(__name__)
 
@@ -15,6 +25,10 @@ class TelegramService:
         self.token = settings.TELEGRAM_BOT_TOKEN
         self.chat_id = settings.TELEGRAM_CHAT_ID
         self.base_url = f"https://api.telegram.org/bot{self.token}/"
+        self.headers = {
+            'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/91.0.4472.124 Safari/537.36',
+            'Accept': '*/*',
+        }
 
     def is_configured(self):
         return bool(self.token and self.chat_id)
@@ -31,19 +45,12 @@ class TelegramService:
             'parse_mode': parse_mode
         }
         
-        # Adding headers to look more like a browser request
-        headers = {
-            'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/91.0.4472.124 Safari/537.36',
-            'Accept': '*/*',
-        }
-        
         try:
             start_time = timezone.now()
-            logger.info(f"Sending Telegram message to chat {self.chat_id} (Timeout: 10s connect, 90s read)...")
+            logger.info(f"Sending Telegram message to chat {self.chat_id} (Timeout: 60s connect, 90s read)...")
             
-            # Split timeout: (connect_timeout, read_timeout)
-            # Use shorter connect timeout to skip bad IP addresses faster
-            response = requests.post(url, data=payload, headers=headers, timeout=(10, 90))
+            # Use longer connect timeout to handle slow VPS networking
+            response = requests.post(url, data=payload, headers=self.headers, timeout=(60, 90))
             
             duration = (timezone.now() - start_time).total_seconds()
             response.raise_for_status()
@@ -53,7 +60,7 @@ class TelegramService:
             logger.error(f"Telegram API HTTP error: {e.response.status_code} - {e.response.text}")
             return False
         except requests.exceptions.Timeout:
-            logger.error("Telegram request timed out after 90 seconds.")
+            logger.error("Telegram request timed out.")
             return False
         except requests.exceptions.RequestException as e:
             logger.error(f"Network error while sending Telegram message: {str(e)}")
@@ -72,9 +79,6 @@ class TelegramService:
         logger.info(f"Attempting to send document: {file_path} (Size: {file_size} bytes)")
             
         url = self.base_url + "sendDocument"
-        headers = {
-            'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/91.0.4472.124 Safari/537.36',
-        }
         
         try:
             with open(file_path, 'rb') as doc:
@@ -85,8 +89,8 @@ class TelegramService:
                     payload['parse_mode'] = parse_mode
                 
                 start_time = timezone.now()
-                logger.info(f"Sending Telegram document {file_path} (Timeout: 30s connect, 120s read)...")
-                response = requests.post(url, data=payload, files=files, headers=headers, timeout=(30, 120))
+                logger.info(f"Sending Telegram document {file_path} (Timeout: 60s connect, 120s read)...")
+                response = requests.post(url, data=payload, files=files, headers=self.headers, timeout=(60, 120))
                 
                 duration = (timezone.now() - start_time).total_seconds()
                 response.raise_for_status()
@@ -96,7 +100,7 @@ class TelegramService:
             logger.error(f"Telegram API HTTP error (document): {e.response.status_code} - {e.response.text}")
             return False
         except requests.exceptions.Timeout:
-            logger.error("Telegram document request timed out after 120 seconds (or 30s connect).")
+            logger.error("Telegram document request timed out after 120 seconds (or 60s connect).")
             return False
         except (requests.exceptions.RequestException, IOError) as e:
             logger.error(f"Error sending Telegram document: {str(e)}")
