@@ -85,8 +85,8 @@ class TelegramService:
                     payload['parse_mode'] = parse_mode
                 
                 start_time = timezone.now()
-                logger.info(f"Sending Telegram document {file_path} (Timeout: 15s connect, 120s read)...")
-                response = requests.post(url, data=payload, files=files, headers=headers, timeout=(15, 120))
+                logger.info(f"Sending Telegram document {file_path} (Timeout: 30s connect, 120s read)...")
+                response = requests.post(url, data=payload, files=files, headers=headers, timeout=(30, 120))
                 
                 duration = (timezone.now() - start_time).total_seconds()
                 response.raise_for_status()
@@ -96,7 +96,7 @@ class TelegramService:
             logger.error(f"Telegram API HTTP error (document): {e.response.status_code} - {e.response.text}")
             return False
         except requests.exceptions.Timeout:
-            logger.error("Telegram document request timed out.")
+            logger.error("Telegram document request timed out after 120 seconds (or 30s connect).")
             return False
         except (requests.exceptions.RequestException, IOError) as e:
             logger.error(f"Error sending Telegram document: {str(e)}")
