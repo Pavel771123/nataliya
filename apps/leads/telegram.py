@@ -31,7 +31,7 @@ class TelegramService:
         
         try:
             logger.info(f"Sending Telegram message to chat {self.chat_id}...")
-            response = requests.post(url, data=payload, timeout=10)
+            response = requests.post(url, data=payload, timeout=30)
             response.raise_for_status()
             logger.info("Telegram message sent successfully.")
             return True
@@ -58,7 +58,7 @@ class TelegramService:
                     payload['parse_mode'] = parse_mode
                 
                 logger.info(f"Sending Telegram document {file_path} to chat {self.chat_id}...")
-                response = requests.post(url, data=payload, files=files, timeout=20)
+                response = requests.post(url, data=payload, files=files, timeout=60)
                 response.raise_for_status()
                 logger.info("Telegram document sent successfully.")
                 return True
