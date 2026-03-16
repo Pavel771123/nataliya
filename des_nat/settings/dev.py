@@ -4,9 +4,8 @@ Development settings for des_nat project.
 
 from .base import *
 
-# Debug mode enabled for development
+# Debug MUST be True during local development to serve static files (CSS, JS, Images)
 DEBUG = True
-
 # Email backend for development (console)
 EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'
 

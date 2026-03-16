@@ -7,9 +7,9 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="icon" href="{% static 'img/favicon.png' %}" type="image/x-icon">
-    <title>{% block title %}Nataliya Kulchinskaya | Interior Designer{% endblock %}</title>
+    <title>{% block title %}Nataliya Kulchinskaya | Дизайнер интерьера Москва, Питер, Россия{% endblock %}</title>
     <meta name="description"
-        content="{% block meta_description %}{{ meta_description|default:'Дизайн интерьера от Наталии Кульчинской' }}{% endblock %}">
+        content="{% block meta_description %}{{ meta_description|default:'Дизайн интерьера Москва, Питер, Россия от Наталии Кульчинской' }}{% endblock %}">
     <meta name="keywords"
         content="{% block meta_keywords %}{{ meta_keywords|default:'дизайн интерьера, дизайн-проект, интерьер' }}{% endblock %}">
     <link rel="canonical" href="{% block canonical_url %}{{ request.build_absolute_uri }}{% endblock %}">
@@ -59,7 +59,7 @@
     </style>
 </head>
 
-<body class="min-h-screen flex flex-col">
+<body class="min-h-screen flex flex-col overflow-x-hidden">
 
     <!-- Header -->
     <header class="absolute top-0 left-0 right-0 z-50 transition-all duration-300">
@@ -98,7 +98,7 @@
 
                 <!-- Mobile Menu Overlay -->
                 <div x-show="open" x-transition.opacity
-                    class="fixed inset-0  z-40 flex flex-col items-center justify-center space-y-8 text-sm uppercase tracking-widest text-[#1a1a1a]"
+                    class="fixed inset-0 bg-[#f0e9dd]/95 backdrop-blur-md z-40 flex flex-col items-center justify-center space-y-8 text-sm uppercase tracking-widest text-[#1a1a1a]"
                     @click.outside="open = false" style="display: none;">
                     <a href="{% url 'samples:sample_list' %}" class="hover:text-gray-500">Образцы проектов</a>
                     <a href="{% url 'pages:pricing' %}" class="hover:text-gray-500">Стоимость</a>
@@ -126,12 +126,12 @@
                         <p class="text-[10px] uppercase tracking-[0.2em] text-gray-500 mb-12">Обсудить ваш проект</p>
 
                         <div class="space-y-4 mb-12">
-                            <a href="tel:+70000000000"
+                            <a href="tel:+79203243327"
                                 class="block text-xl hover:text-gray-300 transition-colors font-medium hover:underline decoration-1 underline-offset-4">+7
-                                000 000 000</a>
-                            <a href="mailto:info@nk-interiors.ru"
+                                920 324 3327</a>
+                            <a href="mailto:noz57@mail.ru"
                                 class="block text-sm text-gray-400 hover:text-white transition-colors">Эл. почта:
-                                info@nk-interiors.ru</a>
+                                noz57@mail.ru</a>
                         </div>
                     </div>
 
@@ -139,19 +139,9 @@
                         <div>
                             <p class="text-[9px] uppercase tracking-widest text-gray-600 mb-4">Социальные сети</p>
                             <div class="flex gap-4">
-                                <!-- Instagram Icon -->
-                                <a href="#"
-                                    class="w-10 h-10 rounded-full border border-gray-700 flex items-center justify-center hover: hover:text-black transition-all group">
-                                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24"
-                                        fill="none" class="stroke-current" stroke-width="2" stroke-linecap="round"
-                                        stroke-linejoin="round">
-                                        <rect x="2" y="2" width="20" height="20" rx="5" ry="5"></rect>
-                                        <path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z"></path>
-                                        <line x1="17.5" y1="6.5" x2="17.51" y2="6.5"></line>
-                                    </svg>
-                                </a>
+
                                 <!-- WhatsApp Icon -->
-                                <a href="#"
+                                <a href="https://wa.me/+79203243327"
                                     class="w-10 h-10 rounded-full border border-gray-700 flex items-center justify-center hover: hover:text-black transition-all group">
                                     <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24"
                                         fill="none" class="stroke-current" stroke-width="2" stroke-linecap="round"
@@ -162,7 +152,7 @@
                                     </svg>
                                 </a>
                                 <!-- Phone Icon -->
-                                <a href="#"
+                                <a href="https://t.me/natali_kul4"
                                     class="w-10 h-10 rounded-full border border-gray-700 flex items-center justify-center hover: hover:text-black transition-all group">
                                     <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24"
                                         fill="none" class="stroke-current" stroke-width="2" stroke-linecap="round"
