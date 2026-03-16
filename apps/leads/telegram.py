@@ -30,10 +30,12 @@ class TelegramService:
         }
         
         try:
+            start_time = timezone.now()
             logger.info(f"Sending Telegram message to chat {self.chat_id}...")
-            response = requests.post(url, data=payload, timeout=30)
+            response = requests.post(url, data=payload, timeout=90)
+            duration = (timezone.now() - start_time).total_seconds()
             response.raise_for_status()
-            logger.info("Telegram message sent successfully.")
+            logger.info(f"Telegram message sent successfully in {duration:.1f}s.")
             return True
         except requests.exceptions.HTTPError as e:
             logger.error(f"Telegram API HTTP error: {e.response.status_code} - {e.response.text}")
@@ -57,10 +59,12 @@ class TelegramService:
                     payload['caption'] = caption
                     payload['parse_mode'] = parse_mode
                 
+                start_time = timezone.now()
                 logger.info(f"Sending Telegram document {file_path} to chat {self.chat_id}...")
-                response = requests.post(url, data=payload, files=files, timeout=60)
+                response = requests.post(url, data=payload, files=files, timeout=120)
+                duration = (timezone.now() - start_time).total_seconds()
                 response.raise_for_status()
-                logger.info("Telegram document sent successfully.")
+                logger.info(f"Telegram document sent successfully in {duration:.1f}s.")
                 return True
         except requests.exceptions.HTTPError as e:
             logger.error(f"Telegram API HTTP error (document): {e.response.status_code} - {e.response.text}")
