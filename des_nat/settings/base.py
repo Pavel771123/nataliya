@@ -17,7 +17,7 @@ SECRET_KEY = config('SECRET_KEY', default='django-insecure-change-this-in-produc
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = config('DEBUG', default=False, cast=bool)
 
-ALLOWED_HOSTS = config('ALLOWED_HOSTS', default='localhost,127.0.0.1,nata-design.ru,109.248.207.153', cast=Csv())
+ALLOWED_HOSTS = config('ALLOWED_HOSTS', default='localhost,127.0.0.1,nata-design.ru,www.nata-design.ru,109.248.207.153', cast=Csv())
 
 
 # Application definition
@@ -168,3 +168,4 @@ X_FRAME_OPTIONS = 'DENY'
 # Telegram Settings
 TELEGRAM_BOT_TOKEN = config('TELEGRAM_BOT_TOKEN', default='').strip()
 TELEGRAM_CHAT_ID = config('TELEGRAM_CHAT_ID', default='').strip()
+TELEGRAM_PROXY = config('TELEGRAM_PROXY', default='').strip()
