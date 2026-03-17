@@ -9,7 +9,6 @@ from django.utils.html import escape
 from django.utils import timezone
 from .models import Lead
 from .forms import LeadForm
-from .telegram import TelegramService
 
 logger = logging.getLogger(__name__)
 
@@ -39,7 +38,6 @@ class LeadCreateView(CreateView):
 
     def send_notifications_task(self, lead, referer):
         """Wrapper task to run in a thread"""
-        self.send_telegram_notification(lead, referer)
         self.send_email_notification(lead, referer)
 
     def send_email_notification(self, lead, referer):
@@ -75,44 +73,3 @@ class LeadCreateView(CreateView):
             logger.info(f"Email notification sent successfully for lead {lead.id}")
         except Exception as e:
             logger.exception(f"Error sending email notification for lead {lead.id}: {str(e)}")
-
-    def send_telegram_notification(self, lead, referer):
-        try:
-            telegram = TelegramService()
-            if not telegram.is_configured():
-                logger.warning("Telegram not configured (missing tokens)")
-                return
-
-            # Construct the full message, escaping user-provided data
-            name = escape(lead.name or "—")
-            phone = escape(lead.phone or "—")
-            description = escape(lead.description or "—")
-            page_url = escape(referer or "—")
-            dt_str = timezone.localtime(lead.created_at).strftime("%d.%m.%Y %H:%M")
-
-            message = (
-                f"📩 <b>Новая заявка с сайта</b>\n\n"
-                f"👤 <b>Имя:</b> {name}\n"
-                f"📞 <b>Телефон:</b> {phone}\n"
-                f"📝 <b>Описание:</b>\n{description}\n\n"
-                f"🕒 <b>Дата:</b> {dt_str}\n"
-                f"🌐 <b>Страница:</b> {page_url}"
-            )
-
-            # If there is a file, send it with the message as a caption (single request)
-            if lead.file:
-                success = telegram.send_document(
-                    lead.file.path, 
-                    caption=message,
-                    parse_mode='HTML'
-                )
-            else:
-                success = telegram.send_message(message, parse_mode='HTML')
-
-            if success:
-                logger.info(f"Telegram notification sent successfully for lead {lead.id}")
-            else:
-                logger.error(f"Telegram notification failed for lead {lead.id}")
-
-        except Exception as e:
-            logger.exception(f"Critical error in Telegram notification thread for lead {lead.id}: {str(e)}")
