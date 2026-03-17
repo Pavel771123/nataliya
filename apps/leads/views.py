@@ -1,5 +1,6 @@
 import logging
 import threading
+from decouple import config
 from django.views.generic import CreateView
 from django.shortcuts import render
 from django.core.mail import EmailMessage
@@ -24,7 +25,7 @@ class LeadCreateView(CreateView):
         # accessing self.request in a thread after response is sent can crash
         referer = self.request.META.get('HTTP_REFERER', "—")
         
-        # Send notifications in background to prevent 10s wait
+        # Send notifications in background to prevent wait times
         threading.Thread(
             target=self.send_notifications_task, 
             args=(self.object, referer)
@@ -39,6 +40,41 @@ class LeadCreateView(CreateView):
     def send_notifications_task(self, lead, referer):
         """Wrapper task to run in a thread"""
         self.send_telegram_notification(lead, referer)
+        self.send_email_notification(lead, referer)
+
+    def send_email_notification(self, lead, referer):
+        try:
+            admin_email = config('ADMIN_EMAIL', default=None)
+            if not admin_email:
+                logger.warning("ADMIN_EMAIL is not configured, skipping email notification.")
+                return
+
+            dt_str = timezone.localtime(lead.created_at).strftime("%d.%m.%Y %H:%M")
+            subject = f"Новая заявка: {lead.name} ({dt_str})"
+            
+            body = (
+                f"📩 Новая заявка с сайта\n\n"
+                f"👤 Имя: {lead.name or '—'}\n"
+                f"📞 Телефон: {lead.phone or '—'}\n"
+                f"📝 Описание:\n{lead.description or '—'}\n\n"
+                f"🕒 Дата: {dt_str}\n"
+                f"🌐 Страница: {referer or '—'}"
+            )
+
+            email = EmailMessage(
+                subject=subject,
+                body=body,
+                from_email=settings.DEFAULT_FROM_EMAIL,
+                to=[admin_email],
+            )
+
+            if lead.file:
+                email.attach_file(lead.file.path)
+
+            email.send(fail_silently=False)
+            logger.info(f"Email notification sent successfully for lead {lead.id}")
+        except Exception as e:
+            logger.exception(f"Error sending email notification for lead {lead.id}: {str(e)}")
 
     def send_telegram_notification(self, lead, referer):
         try:
@@ -64,7 +100,6 @@ class LeadCreateView(CreateView):
             )
 
             # If there is a file, send it with the message as a caption (single request)
-            # This is much faster and more reliable on throttled networks
             if lead.file:
                 success = telegram.send_document(
                     lead.file.path, 

@@ -169,3 +169,6 @@ X_FRAME_OPTIONS = 'DENY'
 TELEGRAM_BOT_TOKEN = config('TELEGRAM_BOT_TOKEN', default='').strip()
 TELEGRAM_CHAT_ID = config('TELEGRAM_CHAT_ID', default='').strip()
 TELEGRAM_PROXY = config('TELEGRAM_PROXY', default='').strip()
+
+# Email Settings
+DEFAULT_FROM_EMAIL = config('DEFAULT_FROM_EMAIL', default='leads@nata-design.ru')
