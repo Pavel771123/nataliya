@@ -92,12 +92,12 @@
                     {% with items=service.get_composition_list %}
                     <div class="relative max-w-5xl">
                         <ul
-                            class="grid grid-cols-1 md:grid-cols-2 gap-x-12 gap-y-2.5 text-[11px] text-gray-600 font-light list-decimal list-inside">
+                            class="grid grid-cols-1  gap-x-12 gap-y-2.5 text-[11px] text-gray-600 font-light list-decimal list-inside">
                             {% for item in items %}
                             <li x-show="localExpanded || {{ forloop.counter }} <= 4"
                                 x-transition:enter="transition ease-out duration-300"
                                 x-transition:enter-start="opacity-0" x-transition:enter-end="opacity-100"
-                                class="leading-relaxed" {% if forloop.counter > 4 %}style="display: none;"{% endif %}>
+                                class="leading-relaxed" {% if forloop.counter> 4 %}style="display: none;"{% endif %}>
                                 {{ item }}
                             </li>
                             {% endfor %}
