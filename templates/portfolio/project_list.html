@@ -42,10 +42,9 @@
             {% for project in projects %}
             <a href="{{ project.get_absolute_url }}" class="group block fade-in-up"
                 style="animation-delay: {{ forloop.counter0|add:'1' }}00ms">
-                <div class="overflow-hidden aspect-[16/10] bg-gray-100 mb-6 relative">
+                <div class="overflow-hidden bg-gray-100 mb-6 relative">
                     {% if project.main_image %}
-                    <img src="{{ project.main_image.url }}" alt="{{ project.title }}"
-                        class="object-cover w-full h-full group-hover:scale-105 transition-transform duration-700">
+                    <img src="{{ project.main_image.url }}" alt="{{ project.title }}" class="w-full h-auto">
                     {% else %}
                     <div class="w-full h-full flex items-center justify-center text-gray-300 bg-gray-100">
                         <span class="serif italic text-2xl">No Image</span>
