@@ -174,3 +174,18 @@ class PageDetailView(DetailView):
         context['page_title'] = self.object.title
         context['meta_description'] = self.object.meta_description or self.object.title
         return context
+
+
+class PrivacyPolicyView(TemplateView):
+    """
+    Privacy Policy page view.
+    """
+    
+    template_name = 'pages/privacy.html'
+    
+    def get_context_data(self, **kwargs):
+        """Add context data for the privacy policy page."""
+        context = super().get_context_data(**kwargs)
+        context['page_title'] = _('Политика конфиденциальности')
+        context['meta_description'] = _('Политика обработки персональных данных')
+        return context
