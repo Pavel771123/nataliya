@@ -43,6 +43,7 @@ class LeadCreateView(CreateView):
     def send_email_notification(self, lead, referer):
         try:
             admin_email = config('ADMIN_EMAIL', default=None)
+            logger.info(f"Attempting to send lead email to: {admin_email}")
             if not admin_email:
                 logger.warning("ADMIN_EMAIL is not configured, skipping email notification.")
                 return
